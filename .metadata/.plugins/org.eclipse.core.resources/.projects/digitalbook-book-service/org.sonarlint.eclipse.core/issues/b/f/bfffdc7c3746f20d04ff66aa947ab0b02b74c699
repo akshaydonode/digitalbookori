@@ -1,0 +1,22 @@
+
+h
+java:S3740“"/Provide the parametrized type for this generic.(±Àš¿ûÿÿÿÿ8Íð ¨·0HíRMAJORZ
+CODE_SMELL
+o	java:S125ª"<This block of commented-out lines of code should be removed.( Á£š8¡ƒ«›·0HëRMAJORZ
+CODE_SMELL
+h
+java:S3655Š";Call "authorEntity.isPresent()" before accessing the value.(žÐÝË8âÏ¯·0HòRMAJORZBUG
+q	java:S106"9Replace this use of System.out or System.err by a logger.(ìØ¨½üÿÿÿÿ8ìß‹°·0HôRMAJORZ
+CODE_SMELL
+q	java:S106ˆ"9Replace this use of System.out or System.err by a logger.(ˆÌ³§üÿÿÿÿ8ÐÌû¯·0HéRMAJORZ
+CODE_SMELL
+d
+java:S2789…"2Replace this null literal by an "Optional" object.(ü…¦Íûÿÿÿÿ8–Ò¯·0HñRMAJORZBUG
+h
+java:S3740±"/Provide the parametrized type for this generic.(±Àš¿ûÿÿÿÿ8¹·õ›·0HóRMAJORZ
+CODE_SMELL
+u
+java:S2583³"CChange this condition so that it does not always evaluate to "true"(´“í­úÿÿÿÿ8¾üÚ¨·0HîRMAJORZBUG
+
+java:S3776X"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(¦‚HöRCRITICALZ
+CODE_SMELL

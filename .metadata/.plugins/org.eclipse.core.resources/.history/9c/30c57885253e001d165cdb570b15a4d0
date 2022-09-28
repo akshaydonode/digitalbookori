@@ -1,0 +1,5 @@
+package com.cts.digitalbook.digitalbookreaderservice.entities;
+
+public class ReaderEntity {
+
+}

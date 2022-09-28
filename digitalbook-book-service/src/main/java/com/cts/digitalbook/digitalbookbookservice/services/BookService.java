@@ -1,12 +1,14 @@
 package com.cts.digitalbook.digitalbookbookservice.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cts.digitalbook.digitalbookauthorservice.exceptions.DigitalBookException;
 import com.cts.digitalbook.digitalbookbookservice.dtos.BookDetailsDTO;
 import com.cts.digitalbook.digitalbookbookservice.dtos.BookSearchDTO;
+import com.cts.digitalbook.digitalbookbookservice.dtos.SubscribedBookDetailsDTO;
 import com.cts.digitalbook.digitalbookbookservice.entities.BookEntity;
 
 public interface BookService {
@@ -18,5 +20,9 @@ public interface BookService {
 	List<BookDetailsDTO> searchBook(BookSearchDTO bookSearchDTO) throws DigitalBookException;
 
 	List<BookDetailsDTO> getAllBooks() throws DigitalBookException;
+
+	List<SubscribedBookDetailsDTO> getReaderSubscribeBook(String readerEmailId) throws DigitalBookException;
+
+	Optional<BookDetailsDTO> getBookDetails(int bookId);
 
 }

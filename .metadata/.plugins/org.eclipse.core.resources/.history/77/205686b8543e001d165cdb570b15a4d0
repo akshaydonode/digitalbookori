@@ -1,0 +1,8 @@
+package com.cts.digitalbook.digitalbookreaderservice.clients;
+
+import org.springframework.cloud.openfeign.FeignClient;
+
+@FeignClient("BOOK-SERVICE")
+public interface BookServiceClient {
+
+}

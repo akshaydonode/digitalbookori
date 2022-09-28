@@ -1,0 +1,32 @@
+package com.cts.digitalbook.digitalbookbookservice.services;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.cts.digitalbook.digitalbookbookservice.clients.AuthorServiceClient;
+import com.cts.digitalbook.digitalbookbookservice.dtos.BookDetailsDTO;
+import com.cts.digitalbook.digitalbookbookservice.entities.Author;
+import com.cts.digitalbook.digitalbookbookservice.entities.BookEntity;
+
+public class EntityDtoMapperImpl implements EntityDtoMapper {
+	
+	@Autowired
+	AuthorServiceClient authorServiceClient;
+
+	@Override
+	public BookDetailsDTO bookDetailsDTO(BookEntity bookEntity, Optional<Author> authorEntity) {
+
+		BookDetailsDTO bookDetailsDTO = new BookDetailsDTO();
+
+		if (authorEntity.isEmpty()) {
+			Optional<Author> authorEntityOpt = authorServiceClient.getAuthorByID(authorId);
+		} else {
+			bookDetailsDTO.setAuthorId(authorEntity.get().getAuthorId());
+			bookDetailsDTO.setAuthorName(authorEntity.get().getAuthorName());
+		}
+
+		return null;
+	}
+
+}

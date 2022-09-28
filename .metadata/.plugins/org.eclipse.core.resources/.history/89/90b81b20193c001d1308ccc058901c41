@@ -1,0 +1,14 @@
+package com.cts.digitalbook.digitalbookauthorservice;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+@EnableCaching
+public class DigitalbookAuthorServiceApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(DigitalbookAuthorServiceApplication.class, args);
+	}
+
+}

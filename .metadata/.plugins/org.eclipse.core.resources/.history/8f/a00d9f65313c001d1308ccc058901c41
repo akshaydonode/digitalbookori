@@ -1,0 +1,13 @@
+package com.cts.digitalbook.digitalbookreaderservice;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class DigitalbookReaderServiceApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(DigitalbookReaderServiceApplication.class, args);
+	}
+
+}

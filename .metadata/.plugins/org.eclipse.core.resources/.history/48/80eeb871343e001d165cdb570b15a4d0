@@ -1,0 +1,38 @@
+package com.cts.digitalbook.digitalbookreaderservice.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.cts.digitalbook.digitalbookauthorservice.exceptions.DigitalBookException;
+import com.cts.digitalbook.digitalbookreaderservice.dtos.ResponseDTO;
+import com.cts.digitalbook.digitalbookreaderservice.entities.ReaderEntity;
+import com.cts.digitalbook.digitalbookreaderservice.services.ReaderService;
+
+@RestController
+@RequestMapping("/reader")
+@CrossOrigin
+public class ReaderController {
+
+	@Autowired
+	ReaderService readerService;
+
+	@PostMapping("/addReader")
+	public ResponseDTO addReader(@RequestBody ReaderEntity readerEntity) {
+		ResponseDTO responseDto = new ResponseDTO();
+
+		try {
+			ReaderEntity readerEntity2 = readerService.addReader(readerEntity);
+			responseDto.setResult(readerEntity2);
+			responseDto.setMessage("Reader added Successfully.");
+		} catch (DigitalBookException e) {
+
+			responseDto.setException(e.getMessage());
+		}
+		return responseDto;
+	}
+
+}

@@ -1,0 +1,5 @@
+package com.cts.digitalbook.digitalbookbookservice.dtos;
+
+public class BookDetailsDTO {
+
+}

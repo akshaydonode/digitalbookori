@@ -1,0 +1,12 @@
+package com.cts.digitalbook.digitalbookbookservice.clients;
+
+import org.springframework.cloud.openfeign.FeignClient;
+
+import com.cts.digitalbook.digitalbookbookservice.entities.SubscribeDetailsEntity;
+
+@FeignClient("READER-SERVICE")
+public interface ReaderServiceClient {
+
+	SubscribeDetailsEntity getSubscribedBookDetails(String readerEmailId);
+
+}

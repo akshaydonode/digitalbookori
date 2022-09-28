@@ -1,0 +1,17 @@
+package com.cts.digitalbook.digitalbookauthorservice.entities.services;
+
+import java.util.Optional;
+
+import com.cts.digitalbook.digitalbookauthorservice.dtos.AuthorLoginDTO;
+import com.cts.digitalbook.digitalbookauthorservice.entities.AuthorEntity;
+import com.cts.digitalbook.digitalbookauthorservice.entities.exceptions.DigitalBookException;
+
+public interface AuthorService {
+
+	public AuthorEntity registerAuthor(AuthorEntity author) throws DigitalBookException;
+
+	public AuthorEntity authorLogin(AuthorLoginDTO authorLoginDTO) throws DigitalBookException;
+
+	public Optional<AuthorEntity> getAuthorById(int authorId);
+
+}

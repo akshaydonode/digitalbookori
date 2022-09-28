@@ -1,0 +1,12 @@
+package com.cts.digitalbook.digitalbookauthorservice.entities.services;
+
+import com.cts.digitalbook.digitalbookauthorservice.dtos.AuthorLoginDTO;
+import com.cts.digitalbook.digitalbookauthorservice.entities.AuthorEntity;
+
+public interface AuthorService {
+
+	public String registerAuthor(AuthorEntity author);
+
+	public String authorLogin(AuthorLoginDTO authorLoginDTO);
+
+}

@@ -1,0 +1,41 @@
+package com.cts.digitalbook.digitalbookauthorservice.controllers;
+
+import static org.mockito.Mockito.when;
+
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.cts.digitalbook.digitalbookauthorservice.dtos.ResponseDTO;
+import com.cts.digitalbook.digitalbookauthorservice.entities.AuthorEntity;
+import com.cts.digitalbook.digitalbookauthorservice.exceptions.DigitalBookException;
+import com.cts.digitalbook.digitalbookauthorservice.services.AuthorService;
+
+@SpringBootTest
+public class AuthorControllerTest {
+
+	@InjectMocks
+	AuthorController authorController;
+
+	@Mock
+	AuthorService authorService;
+
+	@Test
+	public void registerTest() throws DigitalBookException {
+		AuthorEntity authorEntity = new AuthorEntity();
+		authorEntity.setAuthorEmail("akshay@mail.com");
+		authorEntity.setAuthorId(1);
+		authorEntity.setAuthorName("digitalbook");
+		authorEntity.setPassword("QAWSED");
+
+		ResponseDTO responseDto = new ResponseDTO();
+		responseDto.setMessage("Author Registered Successfully...");
+		responseDto.setResult(responseDto);
+
+		when(authorService.registerAuthorService(authorEntity)).thenReturn(authorEntity);
+
+		when(authorController.registerAuthor(authorEntity)).thenReturn(responseDto);
+	}
+
+}

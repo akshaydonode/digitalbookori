@@ -1,0 +1,5 @@
+package com.cts.digitalbook.digitalbookauthorservice.entities.services;
+
+public class AuthorServiceImpl {
+
+}

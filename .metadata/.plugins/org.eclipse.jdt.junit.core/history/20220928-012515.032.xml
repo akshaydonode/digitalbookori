@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="AuthorControllerTest" project="digitalbook-author-service" tests="2" started="2" failures="0" errors="0" ignored="0">
+  <testsuite name="com.cts.digitalbook.digitalbookauthorservice.controllers.AuthorControllerTest" time="0.131" displayname="AuthorControllerTest" uniqueid="[engine:junit-jupiter]/[class:com.cts.digitalbook.digitalbookauthorservice.controllers.AuthorControllerTest]">
+    <testcase name="registerTestWithException" classname="com.cts.digitalbook.digitalbookauthorservice.controllers.AuthorControllerTest" time="0.111" displayname="registerTestWithException()" uniqueid="[engine:junit-jupiter]/[class:com.cts.digitalbook.digitalbookauthorservice.controllers.AuthorControllerTest]/[method:registerTestWithException()]"/>
+    <testcase name="registerTest" classname="com.cts.digitalbook.digitalbookauthorservice.controllers.AuthorControllerTest" time="0.02" displayname="registerTest()" uniqueid="[engine:junit-jupiter]/[class:com.cts.digitalbook.digitalbookauthorservice.controllers.AuthorControllerTest]/[method:registerTest()]"/>
+  </testsuite>
+</testrun>

@@ -1,0 +1,17 @@
+package com.cts.digitalbook.digitalbookbookservice.services;
+
+import java.util.List;
+
+import com.cts.digitalbook.digitalbookauthorservice.exceptions.DigitalBookException;
+import com.cts.digitalbook.digitalbookbookservice.dtos.BookSearchDTO;
+import com.cts.digitalbook.digitalbookbookservice.entities.BookEntity;
+
+public interface BookService {
+
+	BookEntity createBookByAuthor(int authorId, BookEntity bookEntity) throws DigitalBookException;
+
+	String updateBookDetails(int authorId, int bookId, BookEntity bookEntity);
+
+	//sList<BookEntity> searchBook(BookSearchDTO bookSearchDTO);
+
+}

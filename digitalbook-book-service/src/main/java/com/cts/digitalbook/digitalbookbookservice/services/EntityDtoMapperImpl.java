@@ -10,14 +10,19 @@ import org.springframework.stereotype.Service;
 
 import com.cts.digitalbook.digitalbookbookservice.clients.AuthorServiceClient;
 import com.cts.digitalbook.digitalbookbookservice.dtos.BookDetailsDTO;
+import com.cts.digitalbook.digitalbookbookservice.dtos.SubscribedBookDetailsDTO;
 import com.cts.digitalbook.digitalbookbookservice.entities.Author;
 import com.cts.digitalbook.digitalbookbookservice.entities.BookEntity;
+import com.cts.digitalbook.digitalbookbookservice.repositories.BookRepository;
 
 @Service
 public class EntityDtoMapperImpl implements EntityDtoMapper {
 
 	@Autowired
 	AuthorServiceClient authorServiceClient;
+
+	@Autowired
+	BookRepository bookRepository;
 
 	@Override
 	@Transactional
@@ -66,6 +71,32 @@ public class EntityDtoMapperImpl implements EntityDtoMapper {
 		bookDetailsDTO.setPublisher(bookEntity.getPublisher());
 		bookDetailsDTO.setTitle(bookEntity.getTitle());
 		bookDetailsDTO.setUpdateDate(bookEntity.getUpdateDate());
+
+		return bookDetailsDTO;
+
+	}
+
+	@Override
+	@Transactional
+	public SubscribedBookDetailsDTO getBookDetails(int bookID, int readerId) {
+		SubscribedBookDetailsDTO bookDetailsDTO = new SubscribedBookDetailsDTO();
+		Optional<BookEntity> bookEntity = bookRepository.findByBookId(bookID);
+
+		Optional<Author> authorEntityOpt = authorServiceClient.getAuthorByID(bookEntity.get().getAuthorId());
+
+		if (!authorEntityOpt.isEmpty()) {
+			bookDetailsDTO.setAuthorName(authorEntityOpt.get().getAuthorName());
+		}
+
+		if (!bookEntity.isEmpty()) {
+			bookDetailsDTO.setBookId(bookID);
+			bookDetailsDTO.setBookTitle(bookEntity.get().getTitle());
+			bookDetailsDTO.setCatogory(bookEntity.get().getCategory());
+			bookDetailsDTO.setLogo(bookEntity.get().getLogo());
+			bookDetailsDTO.setPrice(bookEntity.get().getPrice());
+			bookDetailsDTO.setPublished(bookEntity.get().getPublished());
+			bookDetailsDTO.setReaderId(readerId);
+		}
 
 		return bookDetailsDTO;
 

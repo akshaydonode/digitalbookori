@@ -1,0 +1,127 @@
+package com.cts.digitalbook.digitalbookreaderservice.services;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cts.digitalbook.digitalbookauthorservice.exceptions.DigitalBookException;
+
+import com.cts.digitalbook.digitalbookreaderservice.dtos.BookSubscribeDTO;
+import com.cts.digitalbook.digitalbookreaderservice.entities.ReaderEntity;
+import com.cts.digitalbook.digitalbookreaderservice.entities.SubscribeDetailsEntity;
+import com.cts.digitalbook.digitalbookreaderservice.entities.SubscribedBookDetails;
+import com.cts.digitalbook.digitalbookreaderservice.entities.SubscriptionEntity;
+import com.cts.digitalbook.digitalbookreaderservice.repositories.ReaderRepository;
+import com.cts.digitalbook.digitalbookreaderservice.repositories.SubscriptionRepository;
+
+@Service
+public class ReaderServiceImpl implements ReaderService {
+
+	@Autowired
+	EntityDtoMapper mapper;
+
+	@Autowired
+	ReaderRepository readerRepository;
+
+	@Autowired
+	SubscriptionRepository subscriptionRepository;
+
+	@Override
+	public ReaderEntity addReader(ReaderEntity readerEntity) throws DigitalBookException {
+		ReaderEntity readerEntity2 = new ReaderEntity();
+		Optional<ReaderEntity> readerOptional = readerRepository.getReaderByEmail(readerEntity.getReaderEmail());
+
+		if (readerOptional.isEmpty()) {
+			readerEntity2.setReaderEmail(readerEntity.getReaderEmail().toLowerCase());
+			readerEntity2.setReaderName(readerEntity.getReaderName());
+			return readerRepository.save(readerEntity2);
+		} else {
+			throw new DigitalBookException("Reader is exit...");
+		}
+
+	}
+
+	public Optional<ReaderEntity> getReader(String readerEmail) {
+		return readerRepository.getReaderByEmail(readerEmail);
+	}
+
+	@Override
+	public SubscriptionEntity bookSubscribe(BookSubscribeDTO bookSubscribeDTO) throws DigitalBookException {
+		if (Objects.nonNull(bookSubscribeDTO)) {
+			SubscriptionEntity subscriptionEntity = new SubscriptionEntity();
+			if (Objects.isNull(bookSubscribeDTO.getReaderId())) {
+				Optional<ReaderEntity> readerOptional = getReader(bookSubscribeDTO.getReaderEmail().toLowerCase());
+				ReaderEntity readerEntity2 = new ReaderEntity();
+				if (readerOptional.isEmpty()) {
+
+					readerEntity2.setReaderEmail(bookSubscribeDTO.getReaderEmail());
+					readerEntity2.setReaderName(bookSubscribeDTO.getReaderEmail());
+					addReader(readerEntity2);
+
+					subscriptionEntity.setBookId(bookSubscribeDTO.getBookId());
+					subscriptionEntity.setReaderId(readerEntity2);
+					subscriptionEntity.setSubscriptionDate(new Date());
+
+					return subscriptionRepository.save(subscriptionEntity);
+
+				} else {
+
+					subscriptionEntity.setBookId(bookSubscribeDTO.getBookId());
+					subscriptionEntity.setReaderId(readerEntity2);
+					subscriptionEntity.setSubscriptionDate(new Date());
+
+					return subscriptionRepository.save(subscriptionEntity);
+				}
+			} else {
+				Optional<ReaderEntity> readerOptional = readerRepository.findById(bookSubscribeDTO.getReaderId());
+				subscriptionEntity.setBookId(bookSubscribeDTO.getBookId());
+				subscriptionEntity.setReaderId(readerOptional.get());
+				subscriptionEntity.setSubscriptionDate(new Date());
+
+				return subscriptionRepository.save(subscriptionEntity);
+			}
+
+		} else {
+			throw new DigitalBookException("BookSubcriptionDTO is null, please retry again...");
+		}
+
+	}
+
+	@Override
+	public Optional<SubscribeDetailsEntity> getReaderSubscribeBook(String readerEmailId) {
+
+		Optional<ReaderEntity> readerOptional = getReader(readerEmailId);
+		if (readerOptional.isEmpty()) {
+			throw new DigitalBookException("Reader didn't subscribed any book.");
+		} else {
+			Optional<List<SubscriptionEntity>> subsCriptonalEntitiesOptional = subscriptionRepository
+					.findSubscriptionByReaderID(readerOptional.get().getReaderId());
+			if (subsCriptonalEntitiesOptional.isEmpty()) {
+
+				throw new DigitalBookException("Oops. Didn't found any subscribed book. please subscribe the book.");
+
+			} else {
+				SubscribeDetailsEntity subscribeDetailsEntity = new SubscribeDetailsEntity();
+
+				subscribeDetailsEntity.setReaderId(readerOptional.get().getReaderId());
+				List<Integer> integers = new ArrayList<Integer>();
+				for (SubscriptionEntity subscriptionEntity : subsCriptonalEntitiesOptional.get()) {
+					// SubscribedBookDetails subscribedBookDetails2 =
+					// mapper.subscriptionBookDetails(subscriptionEntity);
+
+					integers.add(subscriptionEntity.getBookId());
+				}
+				subscribeDetailsEntity.setBookIds(null);
+				return Optional.of(subscribeDetailsEntity);
+			}
+
+		}
+
+	}
+
+}

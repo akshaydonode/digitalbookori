@@ -18,7 +18,7 @@ public class AuthorServiceImpl implements AuthorService {
 	AuthorRepository authorRepository;
 
 	@Override
-	public AuthorEntity registerAuthor(AuthorEntity authorEntity) throws DigitalBookException {
+	public AuthorEntity registerAuthorService(AuthorEntity authorEntity) throws DigitalBookException {
 
 		if (!authorEntity.getAuthorEmail().isEmpty() && !authorEntity.getPassword().isEmpty()
 				&& !authorEntity.getAuthorName().isEmpty()) {
@@ -65,12 +65,14 @@ public class AuthorServiceImpl implements AuthorService {
 	}
 
 	@Override
+	@Cacheable(key = "#authorId",value = "authorIdStore")
 	public Optional<AuthorEntity> getAuthorById(int authorId) {
 		return authorRepository.findById(authorId);
 
 	}
 
 	@Override
+	@Cacheable(key = "#authorName",value = "authorNameStore")
 	public Optional<AuthorEntity> getAuthorByName(String authorName) {
 
 		return authorRepository.findByName(authorName);

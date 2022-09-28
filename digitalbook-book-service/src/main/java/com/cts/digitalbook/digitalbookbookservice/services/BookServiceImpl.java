@@ -15,10 +15,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.cts.digitalbook.digitalbookauthorservice.exceptions.DigitalBookException;
 import com.cts.digitalbook.digitalbookbookservice.clients.AuthorServiceClient;
+import com.cts.digitalbook.digitalbookbookservice.clients.ReaderServiceClient;
 import com.cts.digitalbook.digitalbookbookservice.dtos.BookDetailsDTO;
 import com.cts.digitalbook.digitalbookbookservice.dtos.BookSearchDTO;
+import com.cts.digitalbook.digitalbookbookservice.dtos.SubscribedBookDetailsDTO;
 import com.cts.digitalbook.digitalbookbookservice.entities.Author;
 import com.cts.digitalbook.digitalbookbookservice.entities.BookEntity;
+import com.cts.digitalbook.digitalbookbookservice.entities.SubscribeDetailsEntity;
 import com.cts.digitalbook.digitalbookbookservice.repositories.BookRepository;
 
 @Service
@@ -29,6 +32,9 @@ public class BookServiceImpl implements BookService {
 
 	@Autowired
 	AuthorServiceClient authorServiceClient;
+
+	@Autowired
+	ReaderServiceClient readerServiceClient;
 
 	@Autowired
 	EntityDtoMapper mapper;
@@ -188,6 +194,54 @@ public class BookServiceImpl implements BookService {
 			throw new DigitalBookException("Books not present in database");
 		}
 
+	}
+
+	@Override
+	public List<SubscribedBookDetailsDTO> getReaderSubscribeBook(String readerEmailId) throws DigitalBookException {
+		Optional<SubscribeDetailsEntity> subscribeDetailsEntity = readerServiceClient
+				.getSubscribedBookDetails(readerEmailId);
+		if (subscribeDetailsEntity.isEmpty()) {
+			throw new DigitalBookException("Reader didn't subscribe any book.");
+		} else {
+
+			List<SubscribedBookDetailsDTO> bookDetailsDTOs = new ArrayList();
+
+			for (int bookID : subscribeDetailsEntity.get().getBookIds()) {
+				SubscribedBookDetailsDTO subscribedBookDetailsDTO = mapper.getBookDetails(bookID,
+						subscribeDetailsEntity.get().getReaderId());
+				bookDetailsDTOs.add(subscribedBookDetailsDTO);
+			}
+
+			return bookDetailsDTOs;
+		}
+
+	}
+
+	@Override
+	@Transactional
+	public Optional<BookDetailsDTO> getBookDetails(int bookId) {
+
+		BookDetailsDTO bookDetailsDTO = new BookDetailsDTO();
+		Optional<BookEntity> bookEntity = bookRepository.findById(bookId);
+		Optional<Author> authorEntityOpt = authorServiceClient.getAuthorByID(bookEntity.get().getAuthorId());
+
+		bookDetailsDTO.setActive(bookEntity.get().getActive());
+		if (!authorEntityOpt.isEmpty()) {
+			bookDetailsDTO.setAuthorId(authorEntityOpt.get().getAuthorId());
+			bookDetailsDTO.setAuthorName(authorEntityOpt.get().getAuthorName());
+		}
+		if (!bookEntity.isEmpty()) {
+			bookDetailsDTO.setBookId(bookEntity.get().getBookId());
+			bookDetailsDTO.setCategory(bookEntity.get().getCategory());
+			bookDetailsDTO.setContents(bookEntity.get().getContents());
+			bookDetailsDTO.setLogo(bookEntity.get().getLogo());
+			bookDetailsDTO.setPrice(bookEntity.get().getPrice());
+			bookDetailsDTO.setPublished(bookEntity.get().getPublished());
+			bookDetailsDTO.setTitle(bookEntity.get().getTitle());
+			bookDetailsDTO.setUpdateDate(bookEntity.get().getUpdateDate());
+		}
+
+		return Optional.of(bookDetailsDTO);
 	}
 
 }

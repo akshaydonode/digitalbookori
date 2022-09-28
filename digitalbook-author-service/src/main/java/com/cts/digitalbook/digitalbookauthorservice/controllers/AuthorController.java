@@ -30,7 +30,7 @@ public class AuthorController {
 		ResponseDTO responseDto = new ResponseDTO();
 
 		try {
-			AuthorEntity authorEntity2 = authorService.registerAuthor(authorEntity);
+			AuthorEntity authorEntity2 = authorService.registerAuthorService(authorEntity);
 			responseDto.setResult(authorEntity2);
 			responseDto.setMessage("Author Registered Successfully...");
 		} catch (DigitalBookException e) {

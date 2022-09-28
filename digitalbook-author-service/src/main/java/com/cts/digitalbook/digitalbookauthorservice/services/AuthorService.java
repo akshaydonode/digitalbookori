@@ -8,7 +8,7 @@ import com.cts.digitalbook.digitalbookauthorservice.exceptions.DigitalBookExcept
 
 public interface AuthorService {
 
-	public AuthorEntity registerAuthor(AuthorEntity author) throws DigitalBookException;
+	public AuthorEntity registerAuthorService(AuthorEntity author) throws DigitalBookException;
 
 	public AuthorEntity authorLogin(AuthorLoginDTO authorLoginDTO) throws DigitalBookException;
 

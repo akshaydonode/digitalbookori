@@ -1,0 +1,5 @@
+package com.cts.digitalbook.digitalbookauthorservice.controllers;
+
+public class AuthorControllerTest {
+
+}

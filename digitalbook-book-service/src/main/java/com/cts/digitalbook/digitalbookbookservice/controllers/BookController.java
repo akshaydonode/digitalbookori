@@ -24,6 +24,7 @@ import com.cts.digitalbook.digitalbookbookservice.clients.AuthorServiceClient;
 import com.cts.digitalbook.digitalbookbookservice.dtos.BookDetailsDTO;
 import com.cts.digitalbook.digitalbookbookservice.dtos.BookSearchDTO;
 import com.cts.digitalbook.digitalbookbookservice.dtos.ResponseDTO;
+import com.cts.digitalbook.digitalbookbookservice.dtos.SubscribedBookDetailsDTO;
 import com.cts.digitalbook.digitalbookbookservice.entities.Author;
 import com.cts.digitalbook.digitalbookbookservice.entities.BookEntity;
 import com.cts.digitalbook.digitalbookbookservice.services.BookService;
@@ -109,6 +110,28 @@ public class BookController {
 		}
 
 		return responseDto;
+	}
+	
+	@GetMapping("/{emailID}/books")
+	public ResponseDTO getSubscribeBooks(@PathVariable("emailID") String readerEmailId) {
+		ResponseDTO responseDto = new ResponseDTO();
+		List<SubscribedBookDetailsDTO> subscribedBookDetails;
+		try {
+			subscribedBookDetails = bookService.getReaderSubscribeBook(readerEmailId);
+
+			List<Object> response = new ArrayList<>();
+			response.add(subscribedBookDetails);
+			responseDto.setResponse(response);
+		} catch (DigitalBookException e) {
+			responseDto.setException(e.getMessage());
+		}
+
+		return responseDto;
+	}
+	
+	@GetMapping("/reader/{bookId}")
+	public Optional<BookDetailsDTO> getBookDetails(@PathVariable int bookId) {
+		return bookService.getBookDetails(bookId);
 	}
 
 }

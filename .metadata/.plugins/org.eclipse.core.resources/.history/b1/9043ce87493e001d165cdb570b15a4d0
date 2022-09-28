@@ -1,0 +1,5 @@
+package com.cts.digitalbook.digitalbookbookservice.entities;
+
+public class SubscribeDetailsEntity {
+
+}

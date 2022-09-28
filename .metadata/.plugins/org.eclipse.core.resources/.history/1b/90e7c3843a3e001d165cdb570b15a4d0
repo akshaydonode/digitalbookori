@@ -1,0 +1,19 @@
+package com.cts.digitalbook.digitalbookreaderservice.entities;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Lob;
+
+public class SubscribedBookDetails {
+
+	private int bookId;
+	private int readerId;
+	private String bookTitle;
+	private String catogory;
+	private Double price;
+	private Date published;
+	private String authorName;
+	private byte[] logo;
+
+}

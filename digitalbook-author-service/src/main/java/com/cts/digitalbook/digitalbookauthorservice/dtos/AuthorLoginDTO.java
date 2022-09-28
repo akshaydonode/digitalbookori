@@ -2,8 +2,8 @@ package com.cts.digitalbook.digitalbookauthorservice.dtos;
 
 public class AuthorLoginDTO {
 
-	private String authorEmail;
-	private String password;
+	public String authorEmail;
+	public String password;
 
 	public String getAuthorEmail() {
 		return authorEmail;

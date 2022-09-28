@@ -1,0 +1,17 @@
+package com.cts.digitalbook.digitalbookreaderservice.services;
+
+import org.springframework.stereotype.Service;
+
+import com.cts.digitalbook.digitalbookreaderservice.entities.SubscribedBookDetails;
+import com.cts.digitalbook.digitalbookreaderservice.entities.SubscriptionEntity;
+
+@Service
+public class EntityDtoMapperImpl implements EntityDtoMapper{
+
+	@Override
+	public SubscribedBookDetails subscriptionBookDetails(SubscriptionEntity subscriptionEntity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

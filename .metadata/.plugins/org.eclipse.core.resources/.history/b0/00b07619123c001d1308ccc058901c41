@@ -1,0 +1,31 @@
+package com.cts.digitalbook.digitalbookauthorservice.entities.exceptions;
+
+public class DigitalBookException extends Exception {
+
+	public DigitalBookException() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public DigitalBookException(String message, Throwable cause, boolean enableSuppression,
+			boolean writableStackTrace) {
+		super(message, cause, enableSuppression, writableStackTrace);
+		// TODO Auto-generated constructor stub
+	}
+
+	public DigitalBookException(String message, Throwable cause) {
+		super(message, cause);
+		// TODO Auto-generated constructor stub
+	}
+
+	public DigitalBookException(String message) {
+		super(message);
+		// TODO Auto-generated constructor stub
+	}
+
+	public DigitalBookException(Throwable cause) {
+		super(cause);
+		// TODO Auto-generated constructor stub
+	}
+
+}

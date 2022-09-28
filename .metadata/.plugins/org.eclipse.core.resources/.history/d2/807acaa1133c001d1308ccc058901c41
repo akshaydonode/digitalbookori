@@ -1,0 +1,49 @@
+package com.cts.digitalbook.digitalbookauthorservice.entities.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.cts.digitalbook.digitalbookauthorservice.dtos.ResponseDTO;
+import com.cts.digitalbook.digitalbookauthorservice.entities.AuthorEntity;
+import com.cts.digitalbook.digitalbookauthorservice.entities.exceptions.DigitalBookException;
+import com.cts.digitalbook.digitalbookauthorservice.entities.services.AuthorService;
+
+@RestController
+@RequestMapping("/author")
+@CrossOrigin
+public class AuthorController {
+
+	private static final String EXCEPTION_MESSAGE = "Exception is ";
+
+	@Autowired
+	AuthorService authorService;
+
+	@PostMapping("/signup")
+	public ResponseDTO registerAuthor(@RequestBody AuthorEntity authorEntity) {
+		ResponseDTO responseDto = new ResponseDTO();
+		String message;
+		try {
+			message = authorService.registerAuthor(authorEntity);
+			responseDto.setMessage(message);
+		} catch (DigitalBookException e) {
+			Logger.info(e, EXCEPTION_MESSAGE + e.getMessage());
+			responseDto.setException(e.getMessage());
+		}
+
+		return responseDto;
+
+	}
+
+	@GetMapping("/login")
+	public ResponseDTO loginAuthor(@RequestBody AuthorLoginDTO authorLoginDTO) {
+		ResponseDTO responseDto = new ResponseDTO();
+		String message = authorService.authorLogin(authorLoginDTO);
+		responseDto.setMessage(message);
+		return responseDto;
+	}
+
+}

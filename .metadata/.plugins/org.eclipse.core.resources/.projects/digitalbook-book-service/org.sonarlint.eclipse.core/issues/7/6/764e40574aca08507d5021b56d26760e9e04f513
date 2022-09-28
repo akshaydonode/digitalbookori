@@ -1,0 +1,7 @@
+
+o
+java:S36558">Call "authorEntityOpt.isPresent()" before accessing the value.(öøØ´ıÿÿÿÿ8Õ‰ä¨·0HRMAJORZBUG
+o
+java:S3655">Call "authorEntityOpt.isPresent()" before accessing the value.(öøØ´ıÿÿÿÿ8´Œ•¦·0HRMAJORZBUG
+g
+java:S3655"";Call "authorEntity.isPresent()" before accessing the value.(«®˜À8ãÚ±·0H’RMAJORZBUG

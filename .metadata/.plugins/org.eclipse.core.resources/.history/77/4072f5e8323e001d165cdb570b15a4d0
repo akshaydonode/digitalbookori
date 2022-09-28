@@ -1,0 +1,23 @@
+package com.cts.digitalbook.digitalbookreaderservice.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cts.digitalbook.digitalbookreaderservice.entities.ReaderEntity;
+import com.cts.digitalbook.digitalbookreaderservice.repositories.ReaderRepository;
+
+@Service
+public class ReaderServiceImpl implements ReaderService{
+	
+	@Autowired
+	ReaderRepository readerRepository; 
+
+	@Override
+	public ReaderEntity addReader(ReaderEntity readerEntity) {
+		
+		ReaderEntity readerEntity= readerRepository.getReaderByEmail(readerEntity.getReaderEmail());
+		
+		return null;
+	}
+
+}

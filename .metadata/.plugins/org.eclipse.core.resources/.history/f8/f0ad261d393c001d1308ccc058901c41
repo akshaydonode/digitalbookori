@@ -1,0 +1,16 @@
+package com.cts.digitalbook.digitalbookbookservice.services;
+
+import java.util.List;
+
+import com.cts.digitalbook.digitalbookbookservice.dtos.BookSearchDTO;
+import com.cts.digitalbook.digitalbookbookservice.entities.BookEntity;
+
+public interface BookService {
+
+	String createBookByAuthor(int authorId, BookEntity bookEntity);
+
+	String updateBookDetails(int authorId, int bookId, BookEntity bookEntity);
+
+	List<BookEntity> searchBook(BookSearchDTO bookSearchDTO);
+
+}
