@@ -10,6 +10,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,9 +24,15 @@ import com.cts.digitalbook.digitalbookbookservice.entities.Author;
 import com.cts.digitalbook.digitalbookbookservice.entities.BookEntity;
 import com.cts.digitalbook.digitalbookbookservice.entities.SubscribeDetailsEntity;
 import com.cts.digitalbook.digitalbookbookservice.repositories.BookRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 @Service
 public class BookServiceImpl implements BookService {
+	
+	@Autowired
+	private KafkaTemplate<String, Integer> kafkaTemplate;
+
+	private static final String TOPIC = "kafka-topic";
 
 	@Autowired
 	BookRepository bookRepository;
@@ -242,6 +249,28 @@ public class BookServiceImpl implements BookService {
 		}
 
 		return Optional.of(bookDetailsDTO);
+	}
+
+	@Override
+	@Transactional
+	public String blockBook(int authorId, int bookId) throws DigitalBookException, JsonProcessingException {
+
+		Optional<BookEntity> optionalBook = bookRepository.getBookDetailsByBookIdAndAuthorId(authorId, bookId);
+
+		if (optionalBook.isEmpty()) {
+			throw new DigitalBookException("Book doesn't exit");
+		} else {
+			optionalBook.get().setActive(false);
+			bookRepository.save(optionalBook.get());
+			
+//			kafkaTemplate.send(TOPIC, objectMapper
+//					.writeValueAsString(new Book(id, "Java Microservices", "Mark Carl", (((id * 10) / 3) - 20) * 2)));
+			
+			//kafkaTemplate.send(TOPIC, objectMapper.writeValueAsString(String.valueOf(bookId)));
+			kafkaTemplate.send(TOPIC,bookId);
+		}
+
+		return "Book Blocked Successfullly";
 	}
 
 }

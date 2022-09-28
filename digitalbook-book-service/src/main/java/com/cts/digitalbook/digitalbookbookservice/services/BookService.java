@@ -10,6 +10,7 @@ import com.cts.digitalbook.digitalbookbookservice.dtos.BookDetailsDTO;
 import com.cts.digitalbook.digitalbookbookservice.dtos.BookSearchDTO;
 import com.cts.digitalbook.digitalbookbookservice.dtos.SubscribedBookDetailsDTO;
 import com.cts.digitalbook.digitalbookbookservice.entities.BookEntity;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 public interface BookService {
 
@@ -24,5 +25,7 @@ public interface BookService {
 	List<SubscribedBookDetailsDTO> getReaderSubscribeBook(String readerEmailId) throws DigitalBookException;
 
 	Optional<BookDetailsDTO> getBookDetails(int bookId);
+
+	String blockBook(int authorId, int bookId) throws DigitalBookException, JsonProcessingException;
 
 }

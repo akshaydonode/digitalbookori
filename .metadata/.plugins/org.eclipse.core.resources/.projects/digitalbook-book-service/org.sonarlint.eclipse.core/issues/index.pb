@@ -21,3 +21,13 @@ Vsrc/main/java/com/cts/digitalbook/digitalbookbookservice/services/EntityDtoMapp
 Zsrc/main/java/com/cts/digitalbook/digitalbookbookservice/services/EntityDtoMapperImpl.java,7\6\764e40574aca08507d5021b56d26760e9e04f513
 Y
 )src/main/resources/application.properties,0\6\06f65155ec73600b9fc5c4dc2883d4bb84d8e284
+7
+pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
+â
+Ysrc/main/java/com/cts/digitalbook/digitalbookbookservice/clients/ReaderServiceClient.java,1\b\1bbb0f86d50a75a065957ce5694217f0f909275b
+ç
+]src/main/java/com/cts/digitalbook/digitalbookbookservice/entities/SubscribeDetailsEntity.java,b\4\b48fc3b8f199c344831a14421b777b4368641143
+è
+_src/main/java/com/cts/digitalbook/digitalbookauthorservice/exceptions/DigitalBookException.java,6\8\6814097b6df8a6dbaeb9d5ccf5c48aa8d3afde4e
+è
+_src/main/java/com/cts/digitalbook/digitalbookbookservice/config/KafkaProducerConfiguration.java,c\5\c515d00d349209dbb41e0420f46707759c1f58a8

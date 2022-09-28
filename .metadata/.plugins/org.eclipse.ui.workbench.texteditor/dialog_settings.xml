@@ -6,8 +6,11 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="(@PathVariable(&quot;emailID&quot;) String readerEmailId, @PathVariable int bookId) "/>
+		<item key="selection" value="ObjectMapper"/>
 		<list key="findhistory">
+			<item value="objectMapper"/>
+			<item value="ObjectMapper"/>
+			<item value="openfeign"/>
 			<item value="(@PathVariable(&quot;emailID&quot;) String readerEmailId, @PathVariable int bookId) "/>
 			<item value="emailId"/>
 			<item value="findSubscriptionByReaderID"/>

@@ -111,7 +111,7 @@ public class BookController {
 
 		return responseDto;
 	}
-	
+
 	@GetMapping("/{emailID}/books")
 	public ResponseDTO getSubscribeBooks(@PathVariable("emailID") String readerEmailId) {
 		ResponseDTO responseDto = new ResponseDTO();
@@ -128,10 +128,22 @@ public class BookController {
 
 		return responseDto;
 	}
-	
+
 	@GetMapping("/reader/{bookId}")
 	public Optional<BookDetailsDTO> getBookDetails(@PathVariable int bookId) {
 		return bookService.getBookDetails(bookId);
+	}
+
+	@PostMapping("/block/{authorId}/{bookId}")
+	public ResponseDTO blockBook(@PathVariable int authorId, @PathVariable int bookId) {
+		ResponseDTO responseDto = new ResponseDTO();
+		try {
+			String message = bookService.blockBook(authorId, bookId);
+			responseDto.setMessage(message);
+		} catch (Exception e) {
+			responseDto.setException(e.getMessage());
+		}
+		return responseDto;
 	}
 
 }

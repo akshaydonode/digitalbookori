@@ -1,7 +1,12 @@
 
-o
-java:S36558">Call "authorEntityOpt.isPresent()" before accessing the value.(öøØ´ýÿÿÿÿ8Õ‰ä¨·0HRMAJORZBUG
-o
-java:S3655">Call "authorEntityOpt.isPresent()" before accessing the value.(öøØ´ýÿÿÿÿ8´Œ•¦·0HRMAJORZBUG
 g
-java:S3655"";Call "authorEntity.isPresent()" before accessing the value.(«®˜À8ãÚ±·0H’RMAJORZBUG
+java:S3655'";Call "authorEntity.isPresent()" before accessing the value.(«®˜À8ãÚ±·0HâRMAJORZBUG
+o
+java:S3655=">Call "authorEntityOpt.isPresent()" before accessing the value.(öøØ´ýÿÿÿÿ8´Œ•¦·0HãRMAJORZBUG
+o
+java:S3655$">Call "authorEntityOpt.isPresent()" before accessing the value.(öøØ´ýÿÿÿÿ8Õ‰ä¨·0HäRMAJORZBUG
+e
+java:S3655U"9Call "bookEntity.isPresent()" before accessing the value.(˜Üë°8­Úò”¸0HåRMAJORZBUG
+j
+java:S2589["7Remove this expression which always evaluates to "true"(Ò¡þ¼8­Úò”¸0HæRMAJORZ
+CODE_SMELL

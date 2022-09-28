@@ -24,8 +24,11 @@ public interface BookRepository extends JpaRepository<BookEntity, Integer> {
 	@Query("select b from BookEntity b where b.title LIKE %?1% OR b.category LIKE %?2% OR b.price =?3 OR b.publisher LIKE %?4%")
 	List<BookEntity> searchBookWithoutAuthorName(String title, String category, double price, String publisher);
 
-	@Query("select b fromm BookEntity b where b.bookId=?1 and b.active=true")
+	@Query("select b from BookEntity b where b.bookId=?1 and b.active=true")
 	Optional<BookEntity> findByBookId(int bookID);
+
+//	@Query("select b BookEntity b where b.bookId=?2 and b.")
+//	Optional<BookEntity> findBookByBookIdAndAuthorId(int authorId, int bookId);
 
 }
 

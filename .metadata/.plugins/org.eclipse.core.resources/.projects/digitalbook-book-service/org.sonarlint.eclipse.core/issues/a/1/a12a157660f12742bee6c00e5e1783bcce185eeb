@@ -1,12 +1,12 @@
 
-Z
-java:S3655^"5Call "author.isPresent()" before accessing the value.(¬åúñH§RMAJORZBUG
-q
-java:S4684="@Replace this persistent entity with a simple POJO or DTO object.(ì½ïxH¨RCRITICALZVULNERABILITY
-p	java:S106L"9Replace this use of System.out or System.err by a logger.(ëí•Ìıÿÿÿÿ8Ê¹¯·0H©RMAJORZ
-CODE_SMELL
-‰
-java:S1128"QRemove this unused import 'org.springframework.web.bind.annotation.RequestParam'.(Â¬À·ùÿÿÿÿ8ºİÅ®·0HªRMINORZ
-CODE_SMELL
 r
-java:S4684,"@Replace this persistent entity with a simple POJO or DTO object.(¥²¸¦H«RCRITICALZVULNERABILITY
+java:S4684-"@Replace this persistent entity with a simple POJO or DTO object.(¥²¸¦H²RCRITICALZVULNERABILITY
+Z
+java:S3655_"5Call "author.isPresent()" before accessing the value.(¬åúñH¶RMAJORZBUG
+‰
+java:S1128"QRemove this unused import 'org.springframework.web.bind.annotation.RequestParam'.(Â¬À·ùÿÿÿÿ8ºİÅ®·0H´RMINORZ
+CODE_SMELL
+q
+java:S4684>"@Replace this persistent entity with a simple POJO or DTO object.(ì½ïxH³RCRITICALZVULNERABILITY
+p	java:S106M"9Replace this use of System.out or System.err by a logger.(ëí•Ìıÿÿÿÿ8Ê¹¯·0HµRMAJORZ
+CODE_SMELL

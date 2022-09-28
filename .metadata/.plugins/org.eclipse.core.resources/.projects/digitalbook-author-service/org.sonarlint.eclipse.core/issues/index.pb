@@ -7,3 +7,7 @@ Vsrc/main/java/com/cts/digitalbook/digitalbookauthorservice/services/AuthorServi
 Zsrc/main/java/com/cts/digitalbook/digitalbookauthorservice/services/AuthorServiceImpl.java,7\d\7da0bb396a3c75a4414595bed6c10d45c56b60f8
 Œ
 \src/main/java/com/cts/digitalbook/digitalbookauthorservice/controllers/AuthorController.java,2\f\2f4cdbe39e5d56166a9da2c67f3971ad4f0e3ce9
+Y
+)src/main/resources/application.properties,0\6\06f65155ec73600b9fc5c4dc2883d4bb84d8e284
+“
+csrc/main/java/com/cts/digitalbook/digitalbookauthorservice/DigitalbookAuthorServiceApplication.java,e\1\e109ad95f34bde38183d5ac1ce11b9237c464afc
