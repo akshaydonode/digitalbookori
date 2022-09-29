@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.cts.digitalbook.digitalbookauthorservice.exceptions.DigitalBookException;
 import com.cts.digitalbook.digitalbookbookservice.clients.AuthorServiceClient;
 import com.cts.digitalbook.digitalbookbookservice.clients.ReaderServiceClient;
+import com.cts.digitalbook.digitalbookbookservice.dtos.Book;
 import com.cts.digitalbook.digitalbookbookservice.dtos.BookDetailsDTO;
 import com.cts.digitalbook.digitalbookbookservice.dtos.BookSearchDTO;
 import com.cts.digitalbook.digitalbookbookservice.dtos.SubscribedBookDetailsDTO;
@@ -25,14 +26,17 @@ import com.cts.digitalbook.digitalbookbookservice.entities.BookEntity;
 import com.cts.digitalbook.digitalbookbookservice.entities.SubscribeDetailsEntity;
 import com.cts.digitalbook.digitalbookbookservice.repositories.BookRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class BookServiceImpl implements BookService {
-	
+
 	@Autowired
-	private KafkaTemplate<String, Integer> kafkaTemplate;
+	private KafkaTemplate<String, String> kafkaTemplate;
 
 	private static final String TOPIC = "kafka-topic";
+
+	ObjectMapper objectMapper = new ObjectMapper();
 
 	@Autowired
 	BookRepository bookRepository;
@@ -260,14 +264,22 @@ public class BookServiceImpl implements BookService {
 		if (optionalBook.isEmpty()) {
 			throw new DigitalBookException("Book doesn't exit");
 		} else {
-			optionalBook.get().setActive(false);
-			bookRepository.save(optionalBook.get());
-			
+
+			System.out.println(optionalBook.get());
+//			Optional<BookEntity> bookEntity = bookRepository.findByBookId(bookId);
+//			System.out.println(bookEntity.get());
+
 //			kafkaTemplate.send(TOPIC, objectMapper
 //					.writeValueAsString(new Book(id, "Java Microservices", "Mark Carl", (((id * 10) / 3) - 20) * 2)));
-			
-			//kafkaTemplate.send(TOPIC, objectMapper.writeValueAsString(String.valueOf(bookId)));
-			kafkaTemplate.send(TOPIC,bookId);
+
+			// kafkaTemplate.send(TOPIC,
+			// objectMapper.writeValueAsString(String.valueOf(bookId)));
+			kafkaTemplate.send(TOPIC, objectMapper.writeValueAsString(new Book(bookId, optionalBook.get().getTitle())));
+			System.out.println("data published successfully");
+
+			optionalBook.get().setActive(false);
+			bookRepository.save(optionalBook.get());
+			System.out.println("data updated successfully");
 		}
 
 		return "Book Blocked Successfullly";

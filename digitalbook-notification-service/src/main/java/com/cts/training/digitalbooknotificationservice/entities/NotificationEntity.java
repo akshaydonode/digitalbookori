@@ -20,7 +20,7 @@ public class NotificationEntity {
 
 	private String notificationMessage;
 
-	private String readerId;
+	private int readerId;
 
 	private Date createdDate;
 
@@ -42,11 +42,11 @@ public class NotificationEntity {
 		this.notificationMessage = notificationMessage;
 	}
 
-	public String getReaderId() {
+	public int getReaderId() {
 		return readerId;
 	}
 
-	public void setReaderId(String readerId) {
+	public void setReaderId(int readerId) {
 		this.readerId = readerId;
 	}
 

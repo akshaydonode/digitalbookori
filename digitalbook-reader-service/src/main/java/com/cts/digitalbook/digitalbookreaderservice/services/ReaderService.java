@@ -5,6 +5,7 @@ import java.util.Optional;
 import com.cts.digitalbook.digitalbookauthorservice.exceptions.DigitalBookException;
 import com.cts.digitalbook.digitalbookreaderservice.dtos.BookDetailsDTO;
 import com.cts.digitalbook.digitalbookreaderservice.dtos.BookSubscribeDTO;
+import com.cts.digitalbook.digitalbookreaderservice.dtos.SubscriptionDetailsDTO;
 import com.cts.digitalbook.digitalbookreaderservice.entities.ReaderEntity;
 import com.cts.digitalbook.digitalbookreaderservice.entities.SubscribeDetailsEntity;
 import com.cts.digitalbook.digitalbookreaderservice.entities.SubscriptionEntity;
@@ -22,5 +23,7 @@ public interface ReaderService {
 	BookDetailsDTO getReaderBookBySubscriptionId(String readerEmailId, int subscriptionId) throws DigitalBookException;
 
 	String unSubscribeBook(String readerEmailId, int bookId) throws DigitalBookException;
+
+	Optional<SubscriptionDetailsDTO> getReaderDetailsByBookId(int bookId) throws DigitalBookException;
 
 }

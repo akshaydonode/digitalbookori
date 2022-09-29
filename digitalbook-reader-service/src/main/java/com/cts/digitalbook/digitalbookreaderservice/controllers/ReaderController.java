@@ -15,6 +15,7 @@ import com.cts.digitalbook.digitalbookauthorservice.exceptions.DigitalBookExcept
 import com.cts.digitalbook.digitalbookreaderservice.dtos.BookDetailsDTO;
 import com.cts.digitalbook.digitalbookreaderservice.dtos.BookSubscribeDTO;
 import com.cts.digitalbook.digitalbookreaderservice.dtos.ResponseDTO;
+import com.cts.digitalbook.digitalbookreaderservice.dtos.SubscriptionDetailsDTO;
 import com.cts.digitalbook.digitalbookreaderservice.entities.ReaderEntity;
 import com.cts.digitalbook.digitalbookreaderservice.entities.SubscribeDetailsEntity;
 import com.cts.digitalbook.digitalbookreaderservice.entities.SubscriptionEntity;
@@ -83,8 +84,6 @@ public class ReaderController {
 			throw new DigitalBookException(e);
 		}
 
-	
-
 	}
 
 	@GetMapping("/{emailID}/books/bookid/{bookId}")
@@ -138,6 +137,12 @@ public class ReaderController {
 		}
 
 		return responseDto;
+	}
+
+	@GetMapping("/getReaderByBookId/{bookId}")
+	public Optional<SubscriptionDetailsDTO> getReaderDetailsByBookId(@PathVariable int bookId)
+			throws DigitalBookException {
+		return readerService.getReaderDetailsByBookId(bookId);
 	}
 
 }

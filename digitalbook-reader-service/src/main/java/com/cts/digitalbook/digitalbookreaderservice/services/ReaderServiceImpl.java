@@ -13,6 +13,7 @@ import com.cts.digitalbook.digitalbookauthorservice.exceptions.DigitalBookExcept
 import com.cts.digitalbook.digitalbookreaderservice.clients.BookServiceClient;
 import com.cts.digitalbook.digitalbookreaderservice.dtos.BookDetailsDTO;
 import com.cts.digitalbook.digitalbookreaderservice.dtos.BookSubscribeDTO;
+import com.cts.digitalbook.digitalbookreaderservice.dtos.SubscriptionDetailsDTO;
 import com.cts.digitalbook.digitalbookreaderservice.entities.ReaderEntity;
 import com.cts.digitalbook.digitalbookreaderservice.entities.SubscribeDetailsEntity;
 import com.cts.digitalbook.digitalbookreaderservice.entities.SubscribedBookDetails;
@@ -56,41 +57,50 @@ public class ReaderServiceImpl implements ReaderService {
 
 	@Override
 	public SubscriptionEntity bookSubscribe(BookSubscribeDTO bookSubscribeDTO) throws DigitalBookException {
-		
-		//System.out.println("Objects.nonNull(bookSubscribeDTO): "+Optional.of(bookSubscribeDTO).isEmpty());
+
+		// System.out.println("Objects.nonNull(bookSubscribeDTO):
+		// "+Optional.of(bookSubscribeDTO).isEmpty());
 		if (!Optional.of(bookSubscribeDTO).isEmpty()) {
 			SubscriptionEntity subscriptionEntity = new SubscriptionEntity();
-			if (!Optional.of(bookSubscribeDTO.getReaderId()).isEmpty()) {
-				Optional<ReaderEntity> readerOptional = getReader(bookSubscribeDTO.getReaderEmail().toLowerCase());
-				ReaderEntity readerEntity2 = new ReaderEntity();
-				if (readerOptional.isEmpty()) {
 
-					readerEntity2.setReaderEmail(bookSubscribeDTO.getReaderEmail());
-					readerEntity2.setReaderName(bookSubscribeDTO.getReaderEmail());
-					/* ReaderEntity readerEntity= */addReader(readerEntity2);
+			Optional<SubscriptionEntity> subsOptional = subscriptionRepository
+					.findByBookIdAndReaderId(bookSubscribeDTO.bookId, bookSubscribeDTO.getReaderId());
 
-					subscriptionEntity.setSubscribed(true);
-					subscriptionEntity.setBookId(bookSubscribeDTO.getBookId());
-					subscriptionEntity.setReaderId(readerEntity2);
-					subscriptionEntity.setSubscriptionDate(new Date());
+			if (!subsOptional.isEmpty()) {
+				throw new DigitalBookException("Book Already Subscribed.");
+			} else {
+				if (!Optional.of(bookSubscribeDTO.getReaderId()).isEmpty()) {
+					Optional<ReaderEntity> readerOptional = getReader(bookSubscribeDTO.getReaderEmail().toLowerCase());
+					ReaderEntity readerEntity2 = new ReaderEntity();
+					if (readerOptional.isEmpty()) {
 
-					return subscriptionRepository.save(subscriptionEntity);
+						readerEntity2.setReaderEmail(bookSubscribeDTO.getReaderEmail());
+						readerEntity2.setReaderName(bookSubscribeDTO.getReaderEmail());
+						/* ReaderEntity readerEntity= */addReader(readerEntity2);
 
+						subscriptionEntity.setSubscribed(true);
+						subscriptionEntity.setBookId(bookSubscribeDTO.getBookId());
+						subscriptionEntity.setReaderId(readerEntity2);
+						subscriptionEntity.setSubscriptionDate(new Date());
+
+						return subscriptionRepository.save(subscriptionEntity);
+
+					} else {
+						subscriptionEntity.setSubscribed(true);
+						subscriptionEntity.setBookId(bookSubscribeDTO.getBookId());
+						subscriptionEntity.setReaderId(readerOptional.get());
+						subscriptionEntity.setSubscriptionDate(new Date());
+
+						return subscriptionRepository.save(subscriptionEntity);
+					}
 				} else {
-					subscriptionEntity.setSubscribed(true);
+					Optional<ReaderEntity> readerOptional = readerRepository.findById(bookSubscribeDTO.getReaderId());
 					subscriptionEntity.setBookId(bookSubscribeDTO.getBookId());
-					subscriptionEntity.setReaderId(readerEntity2);
+					subscriptionEntity.setReaderId(readerOptional.get());
 					subscriptionEntity.setSubscriptionDate(new Date());
 
 					return subscriptionRepository.save(subscriptionEntity);
 				}
-			} else {
-				Optional<ReaderEntity> readerOptional = readerRepository.findById(bookSubscribeDTO.getReaderId());
-				subscriptionEntity.setBookId(bookSubscribeDTO.getBookId());
-				subscriptionEntity.setReaderId(readerOptional.get());
-				subscriptionEntity.setSubscriptionDate(new Date());
-
-				return subscriptionRepository.save(subscriptionEntity);
 			}
 
 		} else {
@@ -178,8 +188,10 @@ public class ReaderServiceImpl implements ReaderService {
 			if (subOptional.isEmpty()) {
 				throw new DigitalBookException("Reader didn't subscribed any book.");
 			} else {
-				System.out.println(new Date().getHours() - subOptional.get().getSubscriptionDate().getHours() +" total hrs");
-				if (new Date().getHours() - subOptional.get().getSubscriptionDate().getHours() <= 24 && new Date().getDay() - subOptional.get().getSubscriptionDate().getDate() == 0) {
+				System.out.println(
+						new Date().getHours() - subOptional.get().getSubscriptionDate().getHours() + " total hrs");
+				if (new Date().getHours() - subOptional.get().getSubscriptionDate().getHours() <= 24
+						&& new Date().getDay() - subOptional.get().getSubscriptionDate().getDate() == 0) {
 					subOptional.get().setSubscribed(false);
 					subscriptionRepository.save(subOptional.get());
 					return "Book Unsubscribed successfully...";
@@ -189,6 +201,30 @@ public class ReaderServiceImpl implements ReaderService {
 
 			}
 		}
+	}
+
+	@Override
+	public Optional<SubscriptionDetailsDTO> getReaderDetailsByBookId(int bookId) throws DigitalBookException {
+		List<ReaderEntity> readerEntities = subscriptionRepository.getReaderIdsByBookId(bookId);
+
+		if(!readerEntities.isEmpty()) {
+			
+			
+		SubscriptionDetailsDTO subscriptionDetailsDTO = new SubscriptionDetailsDTO();
+		List<Integer> readerIds = new ArrayList<>();
+
+		for (ReaderEntity readerEntity : readerEntities) {
+			readerIds.add(readerEntity.getReaderId());
+		}
+		subscriptionDetailsDTO.setBookId(bookId);
+		subscriptionDetailsDTO.setReaderId(readerIds);
+		return Optional.of(subscriptionDetailsDTO);
+		
+		}else {
+			throw new DigitalBookException("book id don't have subscribed reader.");
+		}
+
+		
 	}
 
 }
