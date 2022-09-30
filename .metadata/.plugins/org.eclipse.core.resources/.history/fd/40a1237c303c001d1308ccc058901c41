@@ -1,5 +1,0 @@
-package com.cts.digitalbook.digitalbookbookservice.repositories;
-
-public interface BookRepository {
-
-}

@@ -1,5 +1,0 @@
-package com.cts.digitalbook.digitalbookbookservice.clients;
-
-public interface HandleFeignError {
-
-}

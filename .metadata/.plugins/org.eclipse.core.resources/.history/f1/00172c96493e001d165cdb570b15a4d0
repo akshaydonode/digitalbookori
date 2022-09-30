@@ -1,9 +1,0 @@
-package com.cts.digitalbook.digitalbookbookservice.entities;
-
-import java.util.List;
-
-public class SubscribeDetailsEntity {
-
-	public int readerId;
-	public List<Integer> bookIds;
-}
