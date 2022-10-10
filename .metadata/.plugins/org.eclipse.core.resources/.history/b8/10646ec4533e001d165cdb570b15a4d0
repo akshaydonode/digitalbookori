@@ -1,5 +1,0 @@
-package com.cts.digitalbook.digitalbookreaderservice.clients;
-
-public interface BookServiceClient {
-
-}

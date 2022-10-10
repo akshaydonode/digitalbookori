@@ -1,5 +1,0 @@
-package com.cts.digitalbook.digitalbookauthorservice.entities.exceptions;
-
-public class DigitalBookException {
-
-}

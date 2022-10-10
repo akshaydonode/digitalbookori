@@ -1,9 +1,0 @@
-package com.cts.digitalbook.digitalbookauthorservice.entities.services;
-
-public interface AuthorService {
-
-	public String registerAuthor(AuthorEntity author);
-
-	public String authorLogin(AuthorLoginDTO authorLoginDTO);
-
-}

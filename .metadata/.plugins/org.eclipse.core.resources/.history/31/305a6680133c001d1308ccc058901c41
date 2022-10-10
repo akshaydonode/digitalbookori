@@ -1,5 +1,0 @@
-package com.cts.digitalbook.digitalbookauthorservice.entities.controllers;
-
-public class AuthorController {
-
-}
