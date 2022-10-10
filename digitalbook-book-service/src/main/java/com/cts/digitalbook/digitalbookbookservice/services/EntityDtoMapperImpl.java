@@ -43,7 +43,7 @@ public class EntityDtoMapperImpl implements EntityDtoMapper {
 		bookDetailsDTO.setBookId(bookEntity.getBookId());
 		bookDetailsDTO.setCategory(bookEntity.getCategory());
 		bookDetailsDTO.setContents(bookEntity.getContents());
-		bookDetailsDTO.setLogo(bookEntity.getLogo());
+		//bookDetailsDTO.setLogo(bookEntity.getLogo());
 		bookDetailsDTO.setPrice(bookEntity.getPrice());
 		bookDetailsDTO.setPublished(bookEntity.getPublished());
 		bookDetailsDTO.setPublisher(bookEntity.getPublisher());
@@ -65,7 +65,7 @@ public class EntityDtoMapperImpl implements EntityDtoMapper {
 		bookDetailsDTO.setBookId(bookEntity.getBookId());
 		bookDetailsDTO.setCategory(bookEntity.getCategory());
 		bookDetailsDTO.setContents(bookEntity.getContents());
-		bookDetailsDTO.setLogo(bookEntity.getLogo());
+		//bookDetailsDTO.setLogo(bookEntity.getLogo());
 		bookDetailsDTO.setPrice(bookEntity.getPrice());
 		bookDetailsDTO.setPublished(bookEntity.getPublished());
 		bookDetailsDTO.setPublisher(bookEntity.getPublisher());
@@ -92,7 +92,7 @@ public class EntityDtoMapperImpl implements EntityDtoMapper {
 			bookDetailsDTO.setBookId(bookID);
 			bookDetailsDTO.setBookTitle(bookEntity.get().getTitle());
 			bookDetailsDTO.setCatogory(bookEntity.get().getCategory());
-			bookDetailsDTO.setLogo(bookEntity.get().getLogo());
+			//bookDetailsDTO.setLogo(bookEntity.get().getLogo());
 			bookDetailsDTO.setPrice(bookEntity.get().getPrice());
 			bookDetailsDTO.setPublished(bookEntity.get().getPublished());
 			bookDetailsDTO.setReaderId(readerId);

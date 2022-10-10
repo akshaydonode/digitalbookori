@@ -12,7 +12,7 @@ public class BookDetailsDTO {
 	private Date published;
 	private String contents;
 	private boolean active;
-	private byte[] logo;
+	//private byte[] logo;
 	private int authorId;
 	private Date updateDate;
 	private String authorName;
@@ -81,13 +81,13 @@ public class BookDetailsDTO {
 		this.active = active;
 	}
 
-	public byte[] getLogo() {
-		return logo;
-	}
-
-	public void setLogo(byte[] logo) {
-		this.logo = logo;
-	}
+//	public byte[] getLogo() {
+//		return logo;
+//	}
+//
+//	public void setLogo(byte[] logo) {
+//		this.logo = logo;
+//	}
 
 	public int getAuthorId() {
 		return authorId;

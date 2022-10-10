@@ -51,7 +51,7 @@ public class AuthorController {
 
 	}
 
-	@GetMapping("/login")
+	@PostMapping("/login")
 	public ResponseDTO loginAuthor(@RequestBody AuthorLoginDTO authorLoginDTO) {
 		ResponseDTO responseDto = new ResponseDTO();
 
@@ -66,12 +66,12 @@ public class AuthorController {
 		return responseDto;
 	}
 
-	@GetMapping("getAuthorByID/{authorId}")
+	@GetMapping("/getAuthorByID/{authorId}")
 	public Optional<AuthorEntity> getAuthorByID(@PathVariable int authorId) {
 		return authorService.getAuthorById(authorId);
 	}
 
-	@GetMapping("author/getAuthorByName/{authorName}")
+	@GetMapping("/getAuthorByName/{authorName}")
 	public Optional<AuthorEntity> getAuthorByName(@PathVariable String authorName) {
 		return authorService.getAuthorByName(authorName);
 	}

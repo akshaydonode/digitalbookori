@@ -41,9 +41,9 @@ public class BookEntity {
 	@Column(name = "IS_ACTIVE")
 	private boolean active;
 
-	@Lob
-	@Column(name = "BOOK_LOGO")
-	private byte[] logo;
+//	@Lob
+//	@Column(name = "BOOK_LOGO")
+//	private byte[] logo;
 
 	@Column(name = "AUTHOR_ID")
 	private int authorId;
@@ -51,8 +51,8 @@ public class BookEntity {
 	@Column(name = "UPDATED_DATE")
 	private Date updateDate;
 
-	@Column(name = "IMAGE_TYPE")
-	private String imageType;
+//	@Column(name = "IMAGE_TYPE")
+//	private String imageType;
 
 	public int getBookId() {
 		return bookId;
@@ -118,13 +118,13 @@ public class BookEntity {
 		this.active = active;
 	}
 
-	public byte[] getLogo() {
-		return logo;
-	}
-
-	public void setLogo(byte[] logo) {
-		this.logo = logo;
-	}
+//	public byte[] getLogo() {
+//		return logo;
+//	}
+//
+//	public void setLogo(byte[] logo) {
+//		this.logo = logo;
+//	}
 
 	public int getAuthorId() {
 		return authorId;
@@ -142,20 +142,21 @@ public class BookEntity {
 		this.updateDate = updateDate;
 	}
 
-	public String getImageType() {
-		return imageType;
-	}
-
-	public void setImageType(String imageType) {
-		this.imageType = imageType;
-	}
-
 	@Override
 	public String toString() {
 		return "BookEntity [bookId=" + bookId + ", title=" + title + ", category=" + category + ", price=" + price
 				+ ", publisher=" + publisher + ", published=" + published + ", contents=" + contents + ", active="
-				+ active + ", logo=" + Arrays.toString(logo) + ", authorId=" + authorId + ", updateDate=" + updateDate
-				+ ", imageType=" + imageType + "]";
+				+ active + ", authorId=" + authorId + ", updateDate=" + updateDate + "]";
 	}
+
+//	public String getImageType() {
+//		return imageType;
+//	}
+//
+//	public void setImageType(String imageType) {
+//		this.imageType = imageType;
+//	}
+
+	
 
 }

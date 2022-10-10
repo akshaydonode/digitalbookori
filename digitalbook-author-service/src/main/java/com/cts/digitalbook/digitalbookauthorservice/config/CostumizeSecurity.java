@@ -45,7 +45,7 @@ public class CostumizeSecurity extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().antMatchers("/author/authenticate")
+		http.csrf().disable().authorizeRequests().antMatchers("/author/authenticate","/author/signup","/author/getAuthorByID/**","/author/getAuthorByName/**")
 				.permitAll().anyRequest().authenticated().and().exceptionHandling().and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

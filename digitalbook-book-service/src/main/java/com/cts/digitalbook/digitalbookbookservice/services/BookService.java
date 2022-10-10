@@ -14,7 +14,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 public interface BookService {
 
-	BookEntity createBookByAuthor(int authorId, MultipartFile image, BookEntity bookEntity) throws DigitalBookException;
+	BookEntity createBookByAuthor(int authorId,
+			/* MultipartFile image, */ BookEntity bookEntity) throws DigitalBookException;
 
 	BookEntity updateBookDetails(int authorId, int bookId, BookEntity bookEntity) throws DigitalBookException;
 
@@ -27,5 +28,7 @@ public interface BookService {
 	Optional<BookDetailsDTO> getBookDetails(int bookId);
 
 	String blockBook(int authorId, int bookId) throws DigitalBookException, JsonProcessingException;
+
+	List<BookEntity> getAuthorBooks(int authorId) throws DigitalBookException;
 
 }

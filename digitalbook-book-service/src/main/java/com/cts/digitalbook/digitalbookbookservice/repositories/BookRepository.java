@@ -26,6 +26,9 @@ public interface BookRepository extends JpaRepository<BookEntity, Integer> {
 
 	@Query("select b from BookEntity b where b.bookId=?1 and b.active=true")
 	Optional<BookEntity> findByBookId(int bookID);
+	
+	@Query("select b from BookEntity b where b.authorId=?1")
+	Optional<List<BookEntity>> getAuthorBooks(int authorId);
 
 //	@Query("select b BookEntity b where b.bookId=?2 and b.")
 //	Optional<BookEntity> findBookByBookIdAndAuthorId(int authorId, int bookId);

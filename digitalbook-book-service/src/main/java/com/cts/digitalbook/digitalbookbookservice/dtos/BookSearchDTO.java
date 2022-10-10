@@ -48,4 +48,10 @@ public class BookSearchDTO {
 		this.title = title;
 	}
 
+	@Override
+	public String toString() {
+		return "BookSearchDTO [price=" + price + ", authorName=" + authorName + ", category=" + category
+				+ ", publisher=" + publisher + ", title=" + title + "]";
+	}
+
 }

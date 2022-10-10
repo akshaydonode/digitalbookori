@@ -52,7 +52,8 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	@Transactional
-	public BookEntity createBookByAuthor(int authorId, MultipartFile image, BookEntity bookEntity)
+	public BookEntity createBookByAuthor(int authorId,
+			/* MultipartFile image, */ BookEntity bookEntity)
 			throws DigitalBookException {
 
 		Optional<Author> authorEntity = authorServiceClient.getAuthorByID(authorId);
@@ -66,9 +67,9 @@ public class BookServiceImpl implements BookService {
 
 				if (bookEntityOpt.isEmpty()) {
 
-					try {
-						bookEntity2.setLogo(image.getBytes());
-						bookEntity2.setImageType(image.getContentType());
+					//try {
+						//bookEntity2.setLogo(image.getBytes());
+						//bookEntity2.setImageType(image.getContentType());
 						bookEntity2.setActive(bookEntity.getActive());
 						bookEntity2.setAuthorId(bookEntity.getAuthorId());
 						bookEntity2.setCategory(bookEntity.getCategory());
@@ -79,9 +80,9 @@ public class BookServiceImpl implements BookService {
 						bookEntity2.setTitle(bookEntity.getTitle());
 						bookEntity2.setUpdateDate(new Date());
 
-					} catch (IOException e) {
-						throw new DigitalBookException("Problem with book logo.");
-					}
+//					} catch (IOException e) {
+//						throw new DigitalBookException("Problem with book logo.");
+//					}
 					return bookRepository.save(bookEntity2);
 
 				} else {
@@ -123,9 +124,9 @@ public class BookServiceImpl implements BookService {
 				bookDetails.get().setPublisher(bookEntity.getPublisher());
 			}
 
-			if (Objects.nonNull(bookEntity.getLogo())) {
-				bookDetails.get().setLogo(bookEntity.getLogo());
-			}
+//			if (Objects.nonNull(bookEntity.getLogo())) {
+//				bookDetails.get().setLogo(bookEntity.getLogo());
+//			}
 			if (Objects.nonNull(bookEntity.getPrice())) {
 				bookDetails.get().setPrice(bookEntity.getPrice());
 			}
@@ -148,19 +149,28 @@ public class BookServiceImpl implements BookService {
 	public List<BookDetailsDTO> searchBook(BookSearchDTO bookSearchDTO) throws DigitalBookException {
 		List<BookEntity> bookEntities;
 		Optional<Author> authorEntity = null;
+		BookSearchDTO newBookSearchDTO;
+		System.out.println("author name: "+bookSearchDTO.getAuthorName().isBlank());
+		//System.out.println("check author name" + Objects.nonNull(bookSearchDTO.getAuthorName()));
 		if (Objects.nonNull(bookSearchDTO)) {
-			if (Objects.nonNull(bookSearchDTO.getAuthorName())) {
+			if (!bookSearchDTO.getAuthorName().isBlank()) {
 				System.out.println("searcing with author name");
 				authorEntity = authorServiceClient.getAuthorByName(bookSearchDTO.getAuthorName());
-				bookEntities = bookRepository.searchBook(bookSearchDTO.getTitle(), authorEntity.get().getAuthorId(),
-						bookSearchDTO.getCategory(), bookSearchDTO.getPrice(), bookSearchDTO.getPublisher());
+				 newBookSearchDTO = setBookSearchDTO(bookSearchDTO);
+				 System.out.println(newBookSearchDTO.toString());
+				bookEntities = bookRepository.searchBook(newBookSearchDTO.getTitle(), authorEntity.get().getAuthorId(),
+						newBookSearchDTO.getCategory(), bookSearchDTO.getPrice(), newBookSearchDTO.getPublisher());
 			} else {
-				System.out.println("searcing withount author name");
-				bookEntities = bookRepository.searchBookWithoutAuthorName(bookSearchDTO.getTitle(),
-						bookSearchDTO.getCategory(), bookSearchDTO.getPrice(), bookSearchDTO.getPublisher());
+				System.out.println("searcing without author name");
+				 newBookSearchDTO = setBookSearchDTO(bookSearchDTO);
+				 System.out.println(newBookSearchDTO.toString());
+
+				bookEntities = bookRepository.searchBookWithoutAuthorName(newBookSearchDTO.getTitle(),
+						newBookSearchDTO.getCategory(), bookSearchDTO.getPrice(), newBookSearchDTO.getPublisher());
 			}
 
 			if (!bookEntities.isEmpty()) {
+				System.out.println("sending book details");
 				List<BookDetailsDTO> bookDetailsDTOs = new ArrayList();
 
 				for (BookEntity bookEntity2 : bookEntities) {
@@ -170,6 +180,7 @@ public class BookServiceImpl implements BookService {
 
 				return bookDetailsDTOs;
 			} else {
+				System.out.println("exception throwed");
 				throw new DigitalBookException("Oops. Didn't found any book.");
 			}
 
@@ -186,6 +197,14 @@ public class BookServiceImpl implements BookService {
 //				bookSearchDTO.getPrice() != 0 ? bookSearchDTO.getPrice() : null,
 //				bookSearchDTO.getPublisher().isEmpty() ? bookSearchDTO.getPublisher() : null);
 
+	}
+
+	private BookSearchDTO setBookSearchDTO(BookSearchDTO bookSearchDTO) {
+		BookSearchDTO bookSearchDTO2 = new BookSearchDTO();
+		bookSearchDTO2.setCategory(bookSearchDTO.getCategory().length() > 0 ? bookSearchDTO.getCategory() : null);
+		bookSearchDTO2.setPublisher(bookSearchDTO.getPublisher().length() > 0 ? bookSearchDTO.getPublisher() : null);
+		bookSearchDTO2.setTitle(bookSearchDTO.getTitle().length() > 0 ? bookSearchDTO.getTitle() : null);
+		return bookSearchDTO2;
 	}
 
 	@Override
@@ -245,7 +264,7 @@ public class BookServiceImpl implements BookService {
 			bookDetailsDTO.setBookId(bookEntity.get().getBookId());
 			bookDetailsDTO.setCategory(bookEntity.get().getCategory());
 			bookDetailsDTO.setContents(bookEntity.get().getContents());
-			bookDetailsDTO.setLogo(bookEntity.get().getLogo());
+			//bookDetailsDTO.setLogo(bookEntity.get().getLogo());
 			bookDetailsDTO.setPrice(bookEntity.get().getPrice());
 			bookDetailsDTO.setPublished(bookEntity.get().getPublished());
 			bookDetailsDTO.setTitle(bookEntity.get().getTitle());
@@ -283,6 +302,19 @@ public class BookServiceImpl implements BookService {
 		}
 
 		return "Book Blocked Successfullly";
+	}
+
+	@Override
+	@Transactional
+	public List<BookEntity> getAuthorBooks(int authorId) throws DigitalBookException {
+		Optional<List<BookEntity>> bookEntities = bookRepository.getAuthorBooks(authorId);
+
+		if (bookEntities.isEmpty()) {
+			throw new DigitalBookException("Haven't created any book...");
+		} else {
+			return bookEntities.get();
+		}
+
 	}
 
 }
