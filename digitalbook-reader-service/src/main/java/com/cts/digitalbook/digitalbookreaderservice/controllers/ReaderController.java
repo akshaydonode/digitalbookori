@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cts.digitalbook.digitalbookauthorservice.exceptions.DigitalBookException;
@@ -23,11 +24,25 @@ import com.cts.digitalbook.digitalbookreaderservice.services.ReaderService;
 
 @RestController
 @RequestMapping("/reader")
-@CrossOrigin
 public class ReaderController {
 
 	@Autowired
 	ReaderService readerService;
+
+	@PostMapping("/getReader")
+	public ResponseDTO getReaderDetails(@RequestBody ReaderEntity readerEntity) {
+		System.out.println("readerEmail"+readerEntity.getReaderEmail());
+		ResponseDTO responseDto = new ResponseDTO();
+
+		Optional<ReaderEntity> readerEntity2 = readerService.getReader(readerEntity.getReaderEmail());
+		if (readerEntity2.isEmpty()) {
+			responseDto.setException("Reader not exist, please signup.");
+		} else {
+			responseDto.setResult(readerEntity2);
+			responseDto.setMessage("Reader found Successfully.");
+		}
+		return responseDto;
+	}
 
 	@PostMapping("/addReader")
 	public ResponseDTO addReader(@RequestBody ReaderEntity readerEntity) {

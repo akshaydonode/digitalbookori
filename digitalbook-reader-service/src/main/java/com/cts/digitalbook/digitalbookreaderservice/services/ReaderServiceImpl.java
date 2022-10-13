@@ -50,7 +50,8 @@ public class ReaderServiceImpl implements ReaderService {
 		}
 
 	}
-
+	
+	@Override
 	public Optional<ReaderEntity> getReader(String readerEmail) {
 		return readerRepository.getReaderByEmail(readerEmail);
 	}

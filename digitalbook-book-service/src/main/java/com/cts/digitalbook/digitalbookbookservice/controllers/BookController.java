@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.cts.digitalbook.digitalbookauthorservice.exceptions.DigitalBookException;
 import com.cts.digitalbook.digitalbookbookservice.clients.AuthorServiceClient;
 import com.cts.digitalbook.digitalbookbookservice.dtos.BookDetailsDTO;
+import com.cts.digitalbook.digitalbookbookservice.dtos.BookEntityDTO;
 import com.cts.digitalbook.digitalbookbookservice.dtos.BookSearchDTO;
 import com.cts.digitalbook.digitalbookbookservice.dtos.ResponseDTO;
 import com.cts.digitalbook.digitalbookbookservice.dtos.SubscribedBookDetailsDTO;
@@ -40,7 +42,7 @@ public class BookController {
 	@PostMapping("/{authorId}/books")
 	public ResponseDTO createBook(
 			@PathVariable int authorId, /* @RequestPart MultipartFile image, */
-			@RequestPart("bookEntity") @Valid BookEntity bookEntity) {
+			@RequestBody BookEntityDTO bookEntity) {
 		ResponseDTO responseDto = new ResponseDTO();
 
 		try {
@@ -72,14 +74,15 @@ public class BookController {
 	@PostMapping("/search")
 	public ResponseDTO searchBook(@RequestBody BookSearchDTO bookSearchDTO) {
 		ResponseDTO responseDto = new ResponseDTO();
+		//ResponseEntity<Object> responseEntity =new res
 		System.out.println("search called anf fields:"+bookSearchDTO.toString());
 		List<BookDetailsDTO> bookEntities;
 		try {
 			bookEntities = bookService.searchBook(bookSearchDTO);
-			List<Object> response = new ArrayList<>();
-			response.add(bookEntities);
+			//List<Object> response = new ArrayList<>();
+			//response.add(bookEntities);
 			responseDto.setMessage("Book Found Successfully");
-			responseDto.setResponse(response);
+			responseDto.setResultArray(bookEntities.toArray());
 		} catch (DigitalBookException e) {
 			responseDto.setException(e.getMessage());
 		}
@@ -118,9 +121,8 @@ public class BookController {
 		try {
 			subscribedBookDetails = bookService.getReaderSubscribeBook(readerEmailId);
 
-			List<Object> response = new ArrayList<>();
-			response.add(subscribedBookDetails);
-			responseDto.setResponse(response);
+			responseDto.setMessage("Book Found Successfully");
+			responseDto.setResultArray(subscribedBookDetails.toArray());
 		} catch (DigitalBookException e) {
 			responseDto.setException(e.getMessage());
 		}
@@ -148,12 +150,11 @@ public class BookController {
 	@GetMapping("/books/{authorId}")
 	public ResponseDTO getAuthorBooks(@PathVariable int authorId) {
 		ResponseDTO responseDto = new ResponseDTO();
-		List<BookEntity> bookEntities;
+		List<BookDetailsDTO> bookEntities;
 		try {
 			bookEntities = bookService.getAuthorBooks(authorId);
-			List<Object> response = new ArrayList<>();
-			response.add(bookEntities);
-			responseDto.setResponse(response);
+			responseDto.setMessage("Book Found Successfully");
+			responseDto.setResultArray(bookEntities.toArray());
 		} catch (DigitalBookException e) {
 			responseDto.setException(e.getMessage());
 		}

@@ -8,6 +8,7 @@ public class ResponseDTO {
 	private String message;
 	private String exception;
 	private Object result;
+	private Object[] resultArray;
 
 	public Object getResult() {
 		return result;
@@ -67,4 +68,13 @@ public class ResponseDTO {
 	public void setException(String exception) {
 		this.exception = exception;
 	}
+
+	public Object[] getResultArray() {
+		return resultArray;
+	}
+
+	public void setResultArray(Object[] resultArray) {
+		this.resultArray = resultArray;
+	}
+	
 }

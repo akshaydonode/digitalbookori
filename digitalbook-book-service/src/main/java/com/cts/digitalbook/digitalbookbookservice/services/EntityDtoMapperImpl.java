@@ -92,7 +92,6 @@ public class EntityDtoMapperImpl implements EntityDtoMapper {
 			bookDetailsDTO.setBookId(bookID);
 			bookDetailsDTO.setBookTitle(bookEntity.get().getTitle());
 			bookDetailsDTO.setCatogory(bookEntity.get().getCategory());
-			//bookDetailsDTO.setLogo(bookEntity.get().getLogo());
 			bookDetailsDTO.setPrice(bookEntity.get().getPrice());
 			bookDetailsDTO.setPublished(bookEntity.get().getPublished());
 			bookDetailsDTO.setReaderId(readerId);

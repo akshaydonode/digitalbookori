@@ -18,10 +18,10 @@ public interface BookRepository extends JpaRepository<BookEntity, Integer> {
 	@Query("select b from BookEntity b where b.title=?1")
 	Optional<BookEntity> checkTitleExitOrNot(String title);
 
-	@Query("select b from BookEntity b where b.title LIKE %?1% OR b.authorId = ?2 OR b.category LIKE %?3% OR b.price =?4 OR b.publisher LIKE %?5%")
+	@Query("select b from BookEntity b where b.title LIKE %?1% OR b.authorId = ?2 OR b.category LIKE %?3% OR b.price =?4 OR b.publisher LIKE %?5% and b.active=true")
 	List<BookEntity> searchBook(String title, int authorId, String category, double price, String publisher);
 
-	@Query("select b from BookEntity b where b.title LIKE %?1% OR b.category LIKE %?2% OR b.price =?3 OR b.publisher LIKE %?4%")
+	@Query("select b from BookEntity b where b.title LIKE %?1% OR b.category LIKE %?2% OR b.price =?3 OR b.publisher LIKE %?4% and b.active=true")
 	List<BookEntity> searchBookWithoutAuthorName(String title, String category, double price, String publisher);
 
 	@Query("select b from BookEntity b where b.bookId=?1 and b.active=true")

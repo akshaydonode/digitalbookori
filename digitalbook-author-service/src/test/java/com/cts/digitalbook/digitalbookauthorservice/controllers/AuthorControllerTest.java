@@ -1,5 +1,7 @@
 package com.cts.digitalbook.digitalbookauthorservice.controllers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
@@ -35,8 +37,9 @@ public class AuthorControllerTest {
 		responseDto.setResult(responseDto);
 
 		when(authorService.registerAuthorService(authorEntity)).thenReturn(authorEntity);
+		//assertNotNull(authorController.registerAuthor(authorEntity), authorEntity);
 
-		authorController.registerAuthor(authorEntity);
+		assertNotNull(authorController.registerAuthor(authorEntity));
 	}
 
 	@Test

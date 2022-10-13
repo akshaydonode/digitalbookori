@@ -19,6 +19,7 @@ import com.cts.digitalbook.digitalbookbookservice.clients.AuthorServiceClient;
 import com.cts.digitalbook.digitalbookbookservice.clients.ReaderServiceClient;
 import com.cts.digitalbook.digitalbookbookservice.dtos.Book;
 import com.cts.digitalbook.digitalbookbookservice.dtos.BookDetailsDTO;
+import com.cts.digitalbook.digitalbookbookservice.dtos.BookEntityDTO;
 import com.cts.digitalbook.digitalbookbookservice.dtos.BookSearchDTO;
 import com.cts.digitalbook.digitalbookbookservice.dtos.SubscribedBookDetailsDTO;
 import com.cts.digitalbook.digitalbookbookservice.entities.Author;
@@ -53,7 +54,7 @@ public class BookServiceImpl implements BookService {
 	@Override
 	@Transactional
 	public BookEntity createBookByAuthor(int authorId,
-			/* MultipartFile image, */ BookEntity bookEntity)
+			/* MultipartFile image, */ BookEntityDTO bookEntity)
 			throws DigitalBookException {
 
 		Optional<Author> authorEntity = authorServiceClient.getAuthorByID(authorId);
@@ -70,11 +71,11 @@ public class BookServiceImpl implements BookService {
 					//try {
 						//bookEntity2.setLogo(image.getBytes());
 						//bookEntity2.setImageType(image.getContentType());
-						bookEntity2.setActive(bookEntity.getActive());
-						bookEntity2.setAuthorId(bookEntity.getAuthorId());
+						bookEntity2.setActive(Boolean.parseBoolean(bookEntity.getActive()));
+						bookEntity2.setAuthorId(Integer.parseInt(bookEntity.getAuthorId()));
 						bookEntity2.setCategory(bookEntity.getCategory());
 						bookEntity2.setContents(bookEntity.getContents());
-						bookEntity2.setPrice(bookEntity.getPrice());
+						bookEntity2.setPrice(Double.parseDouble(bookEntity.getPrice()));
 						bookEntity2.setPublished(new Date());
 						bookEntity2.setPublisher(bookEntity.getPublisher());
 						bookEntity2.setTitle(bookEntity.getTitle());
@@ -306,13 +307,23 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	@Transactional
-	public List<BookEntity> getAuthorBooks(int authorId) throws DigitalBookException {
+	public List<BookDetailsDTO> getAuthorBooks(int authorId) throws DigitalBookException {
 		Optional<List<BookEntity>> bookEntities = bookRepository.getAuthorBooks(authorId);
 
-		if (bookEntities.isEmpty()) {
-			throw new DigitalBookException("Haven't created any book...");
+		if (!bookEntities.isEmpty()) {
+			System.out.println("sending book details");
+			List<BookDetailsDTO> bookDetailsDTOs = new ArrayList();
+
+			for (BookEntity bookEntity2 : bookEntities.get()) {
+				Optional<Author> authorEntity = null;
+				BookDetailsDTO bookDetailsDTO = mapper.bookDetailsDTO(bookEntity2, authorEntity);
+				bookDetailsDTOs.add(bookDetailsDTO);
+			}
+
+			return bookDetailsDTOs;
 		} else {
-			return bookEntities.get();
+			System.out.println("exception throwed");
+			throw new DigitalBookException("Oops. Didn't found any book.");
 		}
 
 	}

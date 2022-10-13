@@ -26,4 +26,6 @@ public interface ReaderService {
 
 	Optional<SubscriptionDetailsDTO> getReaderDetailsByBookId(int bookId) throws DigitalBookException;
 
+	Optional<ReaderEntity> getReader(String readerEmail);
+
 }
