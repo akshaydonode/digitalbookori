@@ -159,5 +159,15 @@ public class ReaderController {
 			throws DigitalBookException {
 		return readerService.getReaderDetailsByBookId(bookId);
 	}
+	
+	@GetMapping("/updateBlockBookDetails/{bookId}")
+	public String updateBlockBookDetails(@PathVariable int bookId) throws DigitalBookException {
+		return readerService.updateBlockBookDetails(bookId);
+	}
+	
+	@GetMapping("/updateUnBlockBookDetails/{bookId}")
+	public String updateUnBlockBookDetails(@PathVariable int bookId) throws DigitalBookException {
+		return readerService.updateUnBlockBookDetails(bookId);
+	}
 
 }

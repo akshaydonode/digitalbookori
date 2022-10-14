@@ -34,4 +34,6 @@ public interface BookService {
 
 	List<BookDetailsDTO> getAuthorBooks(int authorId) throws DigitalBookException;
 
+	String unBlockBook(int authorId, int bookId) throws DigitalBookException, JsonProcessingException;
+
 }

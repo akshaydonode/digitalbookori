@@ -34,6 +34,9 @@ public class SubscriptionEntity {
 	@Column(name = "IS_SUBSCRIBED")
 	private boolean subscribed;
 
+	@Column(name = "IS_ACTIVE")
+	private boolean isActive;
+
 	public int getSubscriptionId() {
 		return subscriptionId;
 	}
@@ -74,10 +77,19 @@ public class SubscriptionEntity {
 		this.subscribed = subscribed;
 	}
 
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public String toString() {
 		return "SubscriptionEntity [subscriptionId=" + subscriptionId + ", bookId=" + bookId + ", readerEntity="
-				+ readerEntity + ", subscriptionDate=" + subscriptionDate + ", subscribed=" + subscribed + "]";
+				+ readerEntity + ", subscriptionDate=" + subscriptionDate + ", subscribed=" + subscribed + ", isActive="
+				+ isActive + "]";
 	}
 
 }

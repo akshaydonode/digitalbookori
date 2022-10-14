@@ -39,7 +39,7 @@ public class BookEntity {
 	private String contents;
 
 	@Column(name = "IS_ACTIVE")
-	private boolean active;
+	private boolean isAtive;
 
 //	@Lob
 //	@Column(name = "BOOK_LOGO")
@@ -110,13 +110,7 @@ public class BookEntity {
 		contents = chapters;
 	}
 
-	public boolean getActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
-	}
+	
 
 //	public byte[] getLogo() {
 //		return logo;
@@ -125,6 +119,14 @@ public class BookEntity {
 //	public void setLogo(byte[] logo) {
 //		this.logo = logo;
 //	}
+
+	public boolean getAtive() {
+		return isAtive;
+	}
+
+	public void setAtive(boolean isAtive) {
+		this.isAtive = isAtive;
+	}
 
 	public int getAuthorId() {
 		return authorId;
@@ -145,9 +147,10 @@ public class BookEntity {
 	@Override
 	public String toString() {
 		return "BookEntity [bookId=" + bookId + ", title=" + title + ", category=" + category + ", price=" + price
-				+ ", publisher=" + publisher + ", published=" + published + ", contents=" + contents + ", active="
-				+ active + ", authorId=" + authorId + ", updateDate=" + updateDate + "]";
+				+ ", publisher=" + publisher + ", published=" + published + ", contents=" + contents + ", isAtive="
+				+ isAtive + ", authorId=" + authorId + ", updateDate=" + updateDate + "]";
 	}
+
 
 //	public String getImageType() {
 //		return imageType;

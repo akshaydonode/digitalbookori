@@ -15,4 +15,9 @@ public interface ReaderServiceClient {
 	@GetMapping("/reader/getSubscribeBook/{readerEmailId}")
 	Optional<SubscribeDetailsEntity> getSubscribedBookDetails(@PathVariable String readerEmailId) throws DigitalBookException;
 
+	@GetMapping("/reader/updateBlockBookDetails/{bookId}")
+	String updateBlockBookDetails(@PathVariable int bookId);
+	
+	@GetMapping("/reader/updateUnBlockBookDetails/{bookId}")
+	String updateUnBlockBookDetails(@PathVariable int bookId);
 }

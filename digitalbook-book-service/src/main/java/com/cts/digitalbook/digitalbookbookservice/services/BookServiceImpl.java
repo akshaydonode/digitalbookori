@@ -53,8 +53,7 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	@Transactional
-	public BookEntity createBookByAuthor(int authorId,
-			/* MultipartFile image, */ BookEntityDTO bookEntity)
+	public BookEntity createBookByAuthor(int authorId, /* MultipartFile image, */ BookEntityDTO bookEntity)
 			throws DigitalBookException {
 
 		Optional<Author> authorEntity = authorServiceClient.getAuthorByID(authorId);
@@ -68,18 +67,18 @@ public class BookServiceImpl implements BookService {
 
 				if (bookEntityOpt.isEmpty()) {
 
-					//try {
-						//bookEntity2.setLogo(image.getBytes());
-						//bookEntity2.setImageType(image.getContentType());
-						bookEntity2.setActive(Boolean.parseBoolean(bookEntity.getActive()));
-						bookEntity2.setAuthorId(Integer.parseInt(bookEntity.getAuthorId()));
-						bookEntity2.setCategory(bookEntity.getCategory());
-						bookEntity2.setContents(bookEntity.getContents());
-						bookEntity2.setPrice(Double.parseDouble(bookEntity.getPrice()));
-						bookEntity2.setPublished(new Date());
-						bookEntity2.setPublisher(bookEntity.getPublisher());
-						bookEntity2.setTitle(bookEntity.getTitle());
-						bookEntity2.setUpdateDate(new Date());
+					// try {
+					// bookEntity2.setLogo(image.getBytes());
+					// bookEntity2.setImageType(image.getContentType());
+					bookEntity2.setAtive(Boolean.parseBoolean(bookEntity.getActive()));
+					bookEntity2.setAuthorId(Integer.parseInt(bookEntity.getAuthorId()));
+					bookEntity2.setCategory(bookEntity.getCategory());
+					bookEntity2.setContents(bookEntity.getContents());
+					bookEntity2.setPrice(Double.parseDouble(bookEntity.getPrice()));
+					bookEntity2.setPublished(new Date());
+					bookEntity2.setPublisher(bookEntity.getPublisher());
+					bookEntity2.setTitle(bookEntity.getTitle());
+					bookEntity2.setUpdateDate(new Date());
 
 //					} catch (IOException e) {
 //						throw new DigitalBookException("Problem with book logo.");
@@ -131,8 +130,8 @@ public class BookServiceImpl implements BookService {
 			if (Objects.nonNull(bookEntity.getPrice())) {
 				bookDetails.get().setPrice(bookEntity.getPrice());
 			}
-			if (Objects.nonNull(bookEntity.getActive())) {
-				bookDetails.get().setActive(bookEntity.getActive());
+			if (Objects.nonNull(bookEntity.getAtive())) {
+				bookDetails.get().setAtive(bookEntity.getAtive());
 			}
 			bookDetails.get().setUpdateDate(new Date());
 
@@ -151,20 +150,21 @@ public class BookServiceImpl implements BookService {
 		List<BookEntity> bookEntities;
 		Optional<Author> authorEntity = null;
 		BookSearchDTO newBookSearchDTO;
-		System.out.println("author name: "+bookSearchDTO.getAuthorName().isBlank());
-		//System.out.println("check author name" + Objects.nonNull(bookSearchDTO.getAuthorName()));
+		System.out.println("author name: " + bookSearchDTO.getAuthorName().isBlank());
+		// System.out.println("check author name" +
+		// Objects.nonNull(bookSearchDTO.getAuthorName()));
 		if (Objects.nonNull(bookSearchDTO)) {
 			if (!bookSearchDTO.getAuthorName().isBlank()) {
 				System.out.println("searcing with author name");
 				authorEntity = authorServiceClient.getAuthorByName(bookSearchDTO.getAuthorName());
-				 newBookSearchDTO = setBookSearchDTO(bookSearchDTO);
-				 System.out.println(newBookSearchDTO.toString());
+				newBookSearchDTO = setBookSearchDTO(bookSearchDTO);
+				System.out.println(newBookSearchDTO.toString());
 				bookEntities = bookRepository.searchBook(newBookSearchDTO.getTitle(), authorEntity.get().getAuthorId(),
 						newBookSearchDTO.getCategory(), bookSearchDTO.getPrice(), newBookSearchDTO.getPublisher());
 			} else {
 				System.out.println("searcing without author name");
-				 newBookSearchDTO = setBookSearchDTO(bookSearchDTO);
-				 System.out.println(newBookSearchDTO.toString());
+				newBookSearchDTO = setBookSearchDTO(bookSearchDTO);
+				System.out.println(newBookSearchDTO.toString());
 
 				bookEntities = bookRepository.searchBookWithoutAuthorName(newBookSearchDTO.getTitle(),
 						newBookSearchDTO.getCategory(), bookSearchDTO.getPrice(), newBookSearchDTO.getPublisher());
@@ -175,8 +175,11 @@ public class BookServiceImpl implements BookService {
 				List<BookDetailsDTO> bookDetailsDTOs = new ArrayList();
 
 				for (BookEntity bookEntity2 : bookEntities) {
-					BookDetailsDTO bookDetailsDTO = mapper.bookDetailsDTO(bookEntity2, authorEntity);
-					bookDetailsDTOs.add(bookDetailsDTO);
+					if (bookEntity2.getAtive()) {// filtering records asend only unblocked book
+						BookDetailsDTO bookDetailsDTO = mapper.bookDetailsDTO(bookEntity2, authorEntity);
+						bookDetailsDTOs.add(bookDetailsDTO);
+					}
+
 				}
 
 				return bookDetailsDTOs;
@@ -236,7 +239,7 @@ public class BookServiceImpl implements BookService {
 		} else {
 
 			List<SubscribedBookDetailsDTO> bookDetailsDTOs = new ArrayList();
-
+			System.out.println(subscribeDetailsEntity.toString());
 			for (int bookID : subscribeDetailsEntity.get().getBookIds()) {
 				SubscribedBookDetailsDTO subscribedBookDetailsDTO = mapper.getBookDetails(bookID,
 						subscribeDetailsEntity.get().getReaderId());
@@ -256,7 +259,7 @@ public class BookServiceImpl implements BookService {
 		Optional<BookEntity> bookEntity = bookRepository.findById(bookId);
 		Optional<Author> authorEntityOpt = authorServiceClient.getAuthorByID(bookEntity.get().getAuthorId());
 
-		bookDetailsDTO.setActive(bookEntity.get().getActive());
+		bookDetailsDTO.setActive(bookEntity.get().getAtive());
 		if (!authorEntityOpt.isEmpty()) {
 			bookDetailsDTO.setAuthorId(authorEntityOpt.get().getAuthorId());
 			bookDetailsDTO.setAuthorName(authorEntityOpt.get().getAuthorName());
@@ -265,7 +268,7 @@ public class BookServiceImpl implements BookService {
 			bookDetailsDTO.setBookId(bookEntity.get().getBookId());
 			bookDetailsDTO.setCategory(bookEntity.get().getCategory());
 			bookDetailsDTO.setContents(bookEntity.get().getContents());
-			//bookDetailsDTO.setLogo(bookEntity.get().getLogo());
+			// bookDetailsDTO.setLogo(bookEntity.get().getLogo());
 			bookDetailsDTO.setPrice(bookEntity.get().getPrice());
 			bookDetailsDTO.setPublished(bookEntity.get().getPublished());
 			bookDetailsDTO.setTitle(bookEntity.get().getTitle());
@@ -294,15 +297,25 @@ public class BookServiceImpl implements BookService {
 
 			// kafkaTemplate.send(TOPIC,
 			// objectMapper.writeValueAsString(String.valueOf(bookId)));
-			kafkaTemplate.send(TOPIC, objectMapper.writeValueAsString(new Book(bookId, optionalBook.get().getTitle())));
+			// kafkaTemplate.send(TOPIC, objectMapper.writeValueAsString(new Book(bookId,
+			// optionalBook.get().getTitle())));
 			System.out.println("data published successfully");
-
-			optionalBook.get().setActive(false);
+			try {
+				blockBookForReader(bookId);
+			} catch (Exception e) {
+				throw new DigitalBookException("problem in updating book details in subscription entity");
+			}
+			optionalBook.get().setAtive(false);
 			bookRepository.save(optionalBook.get());
 			System.out.println("data updated successfully");
 		}
 
 		return "Book Blocked Successfullly";
+	}
+
+	private void blockBookForReader(int bookId) {
+		String message = readerServiceClient.updateBlockBookDetails(bookId);
+		System.out.println(message);
 	}
 
 	@Override
@@ -326,6 +339,39 @@ public class BookServiceImpl implements BookService {
 			throw new DigitalBookException("Oops. Didn't found any book.");
 		}
 
+	}
+
+	@Override
+	public String unBlockBook(int authorId, int bookId) throws DigitalBookException, JsonProcessingException {
+		Optional<BookEntity> optionalBook = bookRepository.getBookDetailsByBookIdAndAuthorId(authorId, bookId);
+
+		if (optionalBook.isEmpty()) {
+			throw new DigitalBookException("Book doesn't exit");
+		} else {
+
+			System.out.println(optionalBook.get());
+
+			// kafkaTemplate.send(TOPIC, objectMapper.writeValueAsString(new Book(bookId,
+			// optionalBook.get().getTitle())));
+			System.out.println("data published successfully");
+			try {
+				unblockBookForReader(bookId);
+			} catch (Exception e) {
+				throw new DigitalBookException("problem in updating book details in subscription entity");
+			}
+			optionalBook.get().setAtive(true);
+			bookRepository.save(optionalBook.get());
+			System.out.println("data updated successfully");
+		}
+
+		return "Book Un-Blocked Successfullly";
+
+	}
+
+	private void unblockBookForReader(int bookId) {
+
+		String message = readerServiceClient.updateUnBlockBookDetails(bookId);
+		System.out.println(message);
 	}
 
 }

@@ -135,11 +135,11 @@ public class BookController {
 		return bookService.getBookDetails(bookId);
 	}
 
-	@PostMapping("/block/{authorId}/{bookId}")
-	public ResponseDTO blockBook(@PathVariable int authorId, @PathVariable int bookId) {
+	@PostMapping("/block")
+	public ResponseDTO blockBook(@RequestBody BookDetailsDTO bookDetailsDTO) {
 		ResponseDTO responseDto = new ResponseDTO();
 		try {
-			String message = bookService.blockBook(authorId, bookId);
+			String message = bookService.blockBook(bookDetailsDTO.getAuthorId(), bookDetailsDTO.getBookId());
 			responseDto.setMessage(message);
 		} catch (Exception e) {
 			responseDto.setException(e.getMessage());
@@ -161,5 +161,19 @@ public class BookController {
 		
 		return responseDto;
 	}
+	
+	@PostMapping("/unBlock")
+	public ResponseDTO unBlockBook(@RequestBody BookDetailsDTO bookDetailsDTO) {
+		ResponseDTO responseDto = new ResponseDTO();
+		try {
+			String message = bookService.unBlockBook(bookDetailsDTO.getAuthorId(), bookDetailsDTO.getBookId());
+			responseDto.setMessage(message);
+		} catch (Exception e) {
+			responseDto.setException(e.getMessage());
+		}
+		return responseDto;
+	}
+	
+	
 
 }

@@ -23,4 +23,9 @@ public class SubscribeDetailsEntity {
 		this.bookIds = bookIds;
 	}
 
+	@Override
+	public String toString() {
+		return "SubscribeDetailsEntity [readerId=" + readerId + ", bookIds=" + bookIds + "]";
+	}
+
 }

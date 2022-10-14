@@ -39,11 +39,11 @@ public class EntityDtoMapperImpl implements EntityDtoMapper {
 			bookDetailsDTO.setAuthorId(authorEntity.get().getAuthorId());
 			bookDetailsDTO.setAuthorName(authorEntity.get().getAuthorName());
 		}
-		bookDetailsDTO.setActive(bookEntity.getActive());
+		bookDetailsDTO.setActive(bookEntity.getAtive());
 		bookDetailsDTO.setBookId(bookEntity.getBookId());
 		bookDetailsDTO.setCategory(bookEntity.getCategory());
 		bookDetailsDTO.setContents(bookEntity.getContents());
-		//bookDetailsDTO.setLogo(bookEntity.getLogo());
+		// bookDetailsDTO.setLogo(bookEntity.getLogo());
 		bookDetailsDTO.setPrice(bookEntity.getPrice());
 		bookDetailsDTO.setPublished(bookEntity.getPublished());
 		bookDetailsDTO.setPublisher(bookEntity.getPublisher());
@@ -61,11 +61,11 @@ public class EntityDtoMapperImpl implements EntityDtoMapper {
 		bookDetailsDTO.setAuthorId(authorEntityOpt.get().getAuthorId());
 		bookDetailsDTO.setAuthorName(authorEntityOpt.get().getAuthorName());
 
-		bookDetailsDTO.setActive(bookEntity.getActive());
+		bookDetailsDTO.setActive(bookEntity.getAtive());
 		bookDetailsDTO.setBookId(bookEntity.getBookId());
 		bookDetailsDTO.setCategory(bookEntity.getCategory());
 		bookDetailsDTO.setContents(bookEntity.getContents());
-		//bookDetailsDTO.setLogo(bookEntity.getLogo());
+		// bookDetailsDTO.setLogo(bookEntity.getLogo());
 		bookDetailsDTO.setPrice(bookEntity.getPrice());
 		bookDetailsDTO.setPublished(bookEntity.getPublished());
 		bookDetailsDTO.setPublisher(bookEntity.getPublisher());
@@ -77,11 +77,12 @@ public class EntityDtoMapperImpl implements EntityDtoMapper {
 	}
 
 	@Override
-	@Transactional
+	//@Transactional
 	public SubscribedBookDetailsDTO getBookDetails(int bookID, int readerId) {
+		System.out.println("readerid "+readerId+" bookID:"+bookID);
 		SubscribedBookDetailsDTO bookDetailsDTO = new SubscribedBookDetailsDTO();
 		Optional<BookEntity> bookEntity = bookRepository.findByBookId(bookID);
-
+		System.out.println(bookEntity.get().toString());
 		Optional<Author> authorEntityOpt = authorServiceClient.getAuthorByID(bookEntity.get().getAuthorId());
 
 		if (!authorEntityOpt.isEmpty()) {
@@ -95,6 +96,9 @@ public class EntityDtoMapperImpl implements EntityDtoMapper {
 			bookDetailsDTO.setPrice(bookEntity.get().getPrice());
 			bookDetailsDTO.setPublished(bookEntity.get().getPublished());
 			bookDetailsDTO.setReaderId(readerId);
+			bookDetailsDTO.setUpdatedDate(bookEntity.get().getUpdateDate());
+			bookDetailsDTO.setContent(bookEntity.get().getContents());
+			bookDetailsDTO.setPublisher(bookEntity.get().getPublisher());
 		}
 
 		return bookDetailsDTO;

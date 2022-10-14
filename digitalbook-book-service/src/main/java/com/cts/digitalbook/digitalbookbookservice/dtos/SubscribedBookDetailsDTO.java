@@ -11,7 +11,9 @@ public class SubscribedBookDetailsDTO {
 	private Double price;
 	private Date published;
 	private String authorName;
-	private byte[] logo;
+	private String content;
+	private String publisher;
+	private Date updatedDate;
 
 	public int getBookId() {
 		return bookId;
@@ -69,12 +71,28 @@ public class SubscribedBookDetailsDTO {
 		this.authorName = authorName;
 	}
 
-	public byte[] getLogo() {
-		return logo;
+	public String getContent() {
+		return content;
 	}
 
-	public void setLogo(byte[] logo) {
-		this.logo = logo;
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getPublisher() {
+		return publisher;
+	}
+
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
+	}
+
+	public Date getUpdatedDate() {
+		return updatedDate;
+	}
+
+	public void setUpdatedDate(Date updatedDate) {
+		this.updatedDate = updatedDate;
 	}
 
 }

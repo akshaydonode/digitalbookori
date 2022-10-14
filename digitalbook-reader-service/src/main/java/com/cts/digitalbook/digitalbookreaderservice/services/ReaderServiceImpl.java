@@ -39,18 +39,23 @@ public class ReaderServiceImpl implements ReaderService {
 	@Override
 	public ReaderEntity addReader(ReaderEntity readerEntity) throws DigitalBookException {
 		ReaderEntity readerEntity2 = new ReaderEntity();
-		Optional<ReaderEntity> readerOptional = readerRepository.getReaderByEmail(readerEntity.getReaderEmail());
+		if(readerEntity.getReaderEmail().length()>=0 && readerEntity.getReaderName().length()>0) {
+			Optional<ReaderEntity> readerOptional = readerRepository.getReaderByEmail(readerEntity.getReaderEmail());
 
-		if (readerOptional.isEmpty()) {
-			readerEntity2.setReaderEmail(readerEntity.getReaderEmail().toLowerCase());
-			readerEntity2.setReaderName(readerEntity.getReaderName());
-			return readerRepository.save(readerEntity2);
-		} else {
-			throw new DigitalBookException("Reader is exit...");
+			if (readerOptional.isEmpty()) {
+				readerEntity2.setReaderEmail(readerEntity.getReaderEmail().toLowerCase());
+				readerEntity2.setReaderName(readerEntity.getReaderName());
+				return readerRepository.save(readerEntity2);
+			} else {
+				throw new DigitalBookException("Reader is exit...");
+			}
+		}else {
+			throw new DigitalBookException("Please add valid name and email");
 		}
+		
 
 	}
-	
+
 	@Override
 	public Optional<ReaderEntity> getReader(String readerEmail) {
 		return readerRepository.getReaderByEmail(readerEmail);
@@ -83,6 +88,7 @@ public class ReaderServiceImpl implements ReaderService {
 						subscriptionEntity.setBookId(bookSubscribeDTO.getBookId());
 						subscriptionEntity.setReaderId(readerEntity2);
 						subscriptionEntity.setSubscriptionDate(new Date());
+						subscriptionEntity.setActive(true);
 
 						return subscriptionRepository.save(subscriptionEntity);
 
@@ -91,7 +97,7 @@ public class ReaderServiceImpl implements ReaderService {
 						subscriptionEntity.setBookId(bookSubscribeDTO.getBookId());
 						subscriptionEntity.setReaderId(readerOptional.get());
 						subscriptionEntity.setSubscriptionDate(new Date());
-
+						subscriptionEntity.setActive(true);
 						return subscriptionRepository.save(subscriptionEntity);
 					}
 				} else {
@@ -128,9 +134,13 @@ public class ReaderServiceImpl implements ReaderService {
 
 				subscribeDetailsEntity.setReaderId(readerOptional.get().getReaderId());
 				List<Integer> integers = new ArrayList<Integer>();
+				// List<Date> subscribeDate
 				for (SubscriptionEntity subscriptionEntity : subsCriptonalEntitiesOptional.get()) {
+					System.out.println(subscriptionEntity.toString());
+					if (subscriptionEntity.isActive()) {
+						integers.add(subscriptionEntity.getBookId());
 
-					integers.add(subscriptionEntity.getBookId());
+					}
 				}
 				subscribeDetailsEntity.setBookIds(integers);
 				return Optional.of(subscribeDetailsEntity);
@@ -191,8 +201,9 @@ public class ReaderServiceImpl implements ReaderService {
 			} else {
 				System.out.println(
 						new Date().getHours() - subOptional.get().getSubscriptionDate().getHours() + " total hrs");
+				System.out.println();
 				if (new Date().getHours() - subOptional.get().getSubscriptionDate().getHours() <= 24
-						&& new Date().getDay() - subOptional.get().getSubscriptionDate().getDate() == 0) {
+						&& new Date().getDate() - subOptional.get().getSubscriptionDate().getDate() == 0) {
 					subOptional.get().setSubscribed(false);
 					subscriptionRepository.save(subOptional.get());
 					return "Book Unsubscribed successfully...";
@@ -208,24 +219,70 @@ public class ReaderServiceImpl implements ReaderService {
 	public Optional<SubscriptionDetailsDTO> getReaderDetailsByBookId(int bookId) throws DigitalBookException {
 		List<ReaderEntity> readerEntities = subscriptionRepository.getReaderIdsByBookId(bookId);
 
-		if(!readerEntities.isEmpty()) {
-			
-			
-		SubscriptionDetailsDTO subscriptionDetailsDTO = new SubscriptionDetailsDTO();
-		List<Integer> readerIds = new ArrayList<>();
+		if (!readerEntities.isEmpty()) {
 
-		for (ReaderEntity readerEntity : readerEntities) {
-			readerIds.add(readerEntity.getReaderId());
-		}
-		subscriptionDetailsDTO.setBookId(bookId);
-		subscriptionDetailsDTO.setReaderId(readerIds);
-		return Optional.of(subscriptionDetailsDTO);
-		
-		}else {
+			SubscriptionDetailsDTO subscriptionDetailsDTO = new SubscriptionDetailsDTO();
+			List<Integer> readerIds = new ArrayList<>();
+
+			for (ReaderEntity readerEntity : readerEntities) {
+				readerIds.add(readerEntity.getReaderId());
+			}
+			subscriptionDetailsDTO.setBookId(bookId);
+			subscriptionDetailsDTO.setReaderId(readerIds);
+			return Optional.of(subscriptionDetailsDTO);
+
+		} else {
 			throw new DigitalBookException("book id don't have subscribed reader.");
 		}
 
-		
+	}
+
+	@Override
+	public String updateBlockBookDetails(int bookId) throws DigitalBookException {
+		Optional<List<SubscriptionEntity>> optionalSubscriptionEntity = subscriptionRepository
+				.getBookSubscriptionDetails(bookId);
+
+		if (optionalSubscriptionEntity.isEmpty()) {
+			throw new DigitalBookException("book id don't have subscribed reader.");
+
+		} else {
+			for (SubscriptionEntity subscriptionEntity : optionalSubscriptionEntity.get()) {
+				Optional<SubscriptionEntity> subscriptionEntity2 = subscriptionRepository
+						.findById(subscriptionEntity.getSubscriptionId());
+				if (subscriptionEntity2.isEmpty()) {
+					throw new DigitalBookException("book id don't have subscribed reader.");
+				} else {
+					subscriptionEntity2.get().setActive(false);
+					subscriptionRepository.save(subscriptionEntity2.get());
+				}
+			}
+		}
+
+		return "Blocked book updated sucessfully";
+	}
+
+	@Override
+	public String updateUnBlockBookDetails(int bookId) throws DigitalBookException {
+		Optional<List<SubscriptionEntity>> optionalSubscriptionEntity = subscriptionRepository
+				.getBookSubscriptionDetails(bookId);
+
+		if (optionalSubscriptionEntity.isEmpty()) {
+			throw new DigitalBookException("book id don't have subscribed reader.");
+
+		} else {
+			for (SubscriptionEntity subscriptionEntity : optionalSubscriptionEntity.get()) {
+				Optional<SubscriptionEntity> subscriptionEntity2 = subscriptionRepository
+						.findById(subscriptionEntity.getSubscriptionId());
+				if (subscriptionEntity2.isEmpty()) {
+					throw new DigitalBookException("book id don't have subscribed reader.");
+				} else {
+					subscriptionEntity2.get().setActive(true);
+					subscriptionRepository.save(subscriptionEntity2.get());
+				}
+			}
+		}
+
+		return " Un-Blocked book updated sucessfully";
 	}
 
 }

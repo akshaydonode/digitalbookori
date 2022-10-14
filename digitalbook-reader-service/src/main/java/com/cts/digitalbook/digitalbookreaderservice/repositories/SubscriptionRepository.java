@@ -13,7 +13,7 @@ import com.cts.digitalbook.digitalbookreaderservice.entities.SubscriptionEntity;
 @Repository
 public interface SubscriptionRepository extends JpaRepository<SubscriptionEntity, Integer> {
 
-	@Query("select s from SubscriptionEntity s where s.readerEntity.readerId=?1")
+	@Query("select s from SubscriptionEntity s where s.readerEntity.readerId=?1 and s.subscribed=true")
 	Optional<List<SubscriptionEntity>> findSubscriptionByReaderID(int readerId);
 
 	@Query("select s from SubscriptionEntity s where s.bookId=?1 and s.readerEntity.readerId=?2")
@@ -21,5 +21,8 @@ public interface SubscriptionRepository extends JpaRepository<SubscriptionEntity
 
 	@Query("select s.readerEntity from SubscriptionEntity s where s.bookId=?1")
 	List<ReaderEntity> getReaderIdsByBookId(int bookId);
+
+	@Query("select s from SubscriptionEntity s where s.bookId=?1")
+	Optional<List<SubscriptionEntity>> getBookSubscriptionDetails(int bookId);
 
 }

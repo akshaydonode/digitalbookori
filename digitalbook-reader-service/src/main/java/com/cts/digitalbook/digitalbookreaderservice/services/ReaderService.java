@@ -28,4 +28,8 @@ public interface ReaderService {
 
 	Optional<ReaderEntity> getReader(String readerEmail);
 
+	String updateBlockBookDetails(int bookId) throws DigitalBookException;
+
+	String updateUnBlockBookDetails(int bookId) throws DigitalBookException;
+
 }
